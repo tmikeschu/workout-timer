@@ -1,4 +1,5 @@
 import * as React from "react";
+import emotionStyled, { CreateStyled } from "@emotion/styled";
 import { injectGlobal } from "emotion";
 import { ThemeProvider as EmotionProvider } from "emotion-theming";
 
@@ -73,7 +74,7 @@ const defaultThemeContext: ThemeContext = {
 };
 
 const ThemeContext = React.createContext(defaultThemeContext);
-const useTheme = (): ThemeContext => React.useContext(ThemeContext);
+export const useTheme = (): ThemeContext => React.useContext(ThemeContext);
 
 type UseEffectDarkMode = Pick<ThemeContext, "mode"> & { hasMounted: boolean };
 const useEffectDarkMode = (): [
@@ -95,7 +96,7 @@ const useEffectDarkMode = (): [
   return state;
 };
 
-const ThemeProvider: React.FC<{}> = ({ children }) => {
+export const ThemeProvider: React.FC<{}> = ({ children }) => {
   const [themeState, setThemeState] = useEffectDarkMode();
   if (!themeState.hasMounted) {
     return <div />;
@@ -126,4 +127,4 @@ const ThemeProvider: React.FC<{}> = ({ children }) => {
   );
 };
 
-export { ThemeProvider, useTheme };
+export const styled = emotionStyled as CreateStyled<Theme>;
