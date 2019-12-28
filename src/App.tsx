@@ -1,11 +1,69 @@
 import * as React from "react";
 import { useMachine } from "@xstate/react";
 import Machine from "./machine";
-import { styled } from "./theme";
+import { styled, ThemeSwitch } from "./theme";
 import { secsToMS, formatTime, speakableTime } from "./utils";
+
+const Container = styled.div`
+  background-color: ${({ theme }): string => theme.background};
+  color: ${({ theme }): string => theme.body};
+  min-height: 100vh;
+  -webkit-overflow-scrolling: touch; /* Lets it scroll lazy */
+`;
 
 const Header = styled.div`
   padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  h2 {
+    width: 100%;
+  }
+`;
+
+const Checkbox = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  input {
+    width: 2rem;
+    height: 2rem;
+  }
+`;
+
+const TextInput = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  label {
+    position: absolute;
+    top: -0.8rem;
+    left: 1rem;
+    background-color: ${({ theme }): string => theme.background};
+    padding: 2px;
+  }
+
+  input {
+    width: 100%;
+    background-color: ${({ theme }): string => theme.background};
+    color: ${({ theme }): string => theme.body};
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    border: 2px solid ${({ theme }): string => theme.primary};
+  }
 `;
 
 const Button = styled.button`
@@ -50,6 +108,8 @@ const Actions = styled.div`
 `;
 
 const NotificationConfig = styled.div`
+  background-color: ${({ theme }): string => theme.background};
+  color: ${({ theme }): string => theme.body};
   display: flex;
   flex-direction: column;
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.25);
@@ -63,13 +123,9 @@ const NotificationConfig = styled.div`
     margin-bottom: 0;
   }
 
-  label {
-    display: flex;
-    align-items: center;
-    font-size: 1.5rem;
-    input {
-      font-size: 1.5rem;
-      flex: 1;
+  & > div {
+    label {
+      font-size: 1rem;
     }
   }
 `;
@@ -144,9 +200,10 @@ const App: React.FC<{}> = () => {
   const fresh = current.context.initialTime === current.context.currentTime;
 
   return (
-    <div>
+    <Container>
       <Header>
         <h1>Workout Timer</h1>
+        <ThemeSwitch />
         <Time>{formatTime(current.context.currentTime)}</Time>
       </Header>
 
@@ -184,17 +241,30 @@ const App: React.FC<{}> = () => {
         </Button>
         {current.context.notificationTimes.map((config, i) => (
           <NotificationConfig key={`${i}`}>
-            <label htmlFor={`seconds:${i}`}>
-              Seconds:{" "}
+            <TextInput>
+              <label htmlFor={`seconds:${i}`}>Seconds</label>
               <input
                 disabled={current.matches("running")}
                 type="number"
                 value={config.time}
                 onChange={changeNotifications(i)}
               />
-            </label>
-            <label htmlFor={`interval:${i}`}>
-              Interval:{" "}
+            </TextInput>
+
+            <TextInput>
+              <label htmlFor={`message:${i}`}>Message</label>
+              <input
+                disabled={current.matches("running")}
+                placeholder="Woohoo!"
+                id={`interval:${i}`}
+                type="text"
+                value={config.message || ""}
+                onChange={changeNotifications(i)}
+              />
+            </TextInput>
+
+            <Checkbox>
+              <label htmlFor={`interval:${i}`}>Interval:</label>
               <input
                 disabled={current.matches("running")}
                 id={`interval:${i}`}
@@ -202,21 +272,11 @@ const App: React.FC<{}> = () => {
                 checked={config.interval}
                 onChange={changeNotifications(i)}
               />
-            </label>
-            <label htmlFor={`message:${i}`}>
-              Message:{" "}
-              <input
-                disabled={current.matches("running")}
-                id={`interval:${i}`}
-                type="text"
-                value={config.message || ""}
-                onChange={changeNotifications(i)}
-              />
-            </label>
+            </Checkbox>
           </NotificationConfig>
         ))}
       </Actions>
-    </div>
+    </Container>
   );
 };
 

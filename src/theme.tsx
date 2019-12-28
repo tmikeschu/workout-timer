@@ -2,6 +2,7 @@ import * as React from "react";
 import emotionStyled, { CreateStyled } from "@emotion/styled";
 import { injectGlobal } from "emotion";
 import { ThemeProvider as EmotionProvider } from "emotion-theming";
+import { Day, Night } from "./icons";
 
 const colors = {
   white: "#FBFEF9",
@@ -21,8 +22,12 @@ injectGlobal`
     margin: 0;
   }
 
-  * {
+  *,
+  input[type=text],
+  input[type=number],
+  input[type=password] {
     box-sizing: border-box;
+    transition: background-color 300ms; color 300ms;
   }
 `;
 
@@ -68,7 +73,7 @@ interface ThemeContext {
 }
 
 const defaultThemeContext: ThemeContext = {
-  mode: "dark",
+  mode: "light",
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setTheme: () => {}
 };
@@ -89,7 +94,7 @@ const useEffectDarkMode = (): [
 
   React.useEffect(() => {
     const lsMode = (localStorage.getItem("mode") ||
-      "dark") as ThemeContext["mode"];
+      "light") as ThemeContext["mode"];
     setThemeState(state => ({ ...state, mode: lsMode, hasMounted: true }));
   }, [setThemeState]);
 
@@ -128,3 +133,22 @@ export const ThemeProvider: React.FC<{}> = ({ children }) => {
 };
 
 export const styled = emotionStyled as CreateStyled<Theme>;
+
+const Button = styled.button`
+  svg {
+    fill: ${({ theme }): string => theme.body};
+  }
+`;
+
+export const ThemeSwitch: React.FC<{}> = () => {
+  const { mode, setTheme } = React.useContext(ThemeContext);
+  return (
+    <Button
+      onClick={(): void => {
+        setTheme();
+      }}
+    >
+      {mode === "light" ? <Day /> : <Night />}
+    </Button>
+  );
+};
