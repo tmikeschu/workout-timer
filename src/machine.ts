@@ -1,7 +1,5 @@
 import { MachineConfig, MachineOptions, assign, Machine } from "xstate";
-
-const secsToMS = (seconds: number): number => seconds * 1000;
-const minsToMS = (minutes: number): number => secsToMS(minutes * 60);
+import { minsToMS, secsToMS } from "./utils";
 
 type Schema = {
   states: {
@@ -29,7 +27,7 @@ type Event =
   | { type: "COUNT_DOWN" }
   | { type: "RESET" };
 
-type NotificationConfig = { time: number; interval: boolean };
+type NotificationConfig = { time: number; interval: boolean; message?: string };
 type Context = {
   initialTime: number;
   currentTime: number;
@@ -109,23 +107,6 @@ export const machineOptions: Partial<MachineOptions<Context, Event>> = {
       }, secsToMS(1));
       return (): void => {
         clearInterval(interval);
-      };
-    },
-    plantNotifications: context => (): (() => void) => {
-      const timeouts = context.notificationTimes.map(config => {
-        const timingFn = config.interval ? setInterval : setTimeout;
-        const id = timingFn(() => {
-          console.log(new Date().toLocaleString());
-        }, secsToMS(config.time));
-        return { ...config, id };
-      });
-
-      return (): void => {
-        console.log("clear timeouts");
-        timeouts.forEach(config => {
-          const clearTimingFn = config.interval ? clearInterval : clearTimeout;
-          clearTimingFn(config.id);
-        });
       };
     }
   }

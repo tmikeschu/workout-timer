@@ -3,9 +3,42 @@ import { render } from "react-dom";
 import { useMachine } from "@xstate/react";
 import Machine from "./machine";
 import { ThemeProvider } from "./theme";
+import { secsToMS, formatTime, speakableTime } from "./utils";
 
 const App: React.FC<{}> = () => {
-  const [current, send] = useMachine(Machine);
+  const [current, send] = useMachine(Machine, {
+    services: {
+      plantNotifications: context => (): (() => void) => {
+        const startedAt = new Date().getTime();
+        const getTime = (): number => {
+          const now = new Date().getTime();
+          // HACK not sure why but without the - 1000 the announcement occurs at
+          // the right time but announces a second less than the desired time
+          return context.initialTime - (now - startedAt - 1000);
+        };
+
+        const timeouts = context.notificationTimes.map(config => {
+          const timingFn = config.interval ? setInterval : setTimeout;
+          const id = timingFn(() => {
+            const speakable = new SpeechSynthesisUtterance(
+              config.message || speakableTime(getTime())
+            );
+            window.speechSynthesis.speak(speakable);
+          }, secsToMS(config.time));
+          return { ...config, id };
+        });
+
+        return (): void => {
+          timeouts.forEach(config => {
+            const clearTimingFn = config.interval
+              ? clearInterval
+              : clearTimeout;
+            clearTimingFn(config.id);
+          });
+        };
+      }
+    }
+  });
 
   const changeNotifications = (i: number) => (
     e: React.ChangeEvent<HTMLInputElement>
@@ -18,6 +51,10 @@ const App: React.FC<{}> = () => {
       }
       case "number": {
         draft[i].time = Number(e.target.value);
+        break;
+      }
+      case "text": {
+        draft[i].message = e.target.value;
         break;
       }
     }
@@ -38,7 +75,7 @@ const App: React.FC<{}> = () => {
 
   return (
     <div>
-      <h2>{current.context.currentTime}</h2>
+      <h2>{formatTime(current.context.currentTime)}</h2>
       {current.matches("running") ? (
         <button
           onClick={(): void => {
@@ -82,6 +119,15 @@ const App: React.FC<{}> = () => {
             id={`interval:${i}`}
             type="checkbox"
             checked={config.interval}
+            onChange={changeNotifications(i)}
+          />
+
+          <label htmlFor={`message:${i}`}>Message</label>
+          <input
+            disabled={current.matches("running")}
+            id={`interval:${i}`}
+            type="text"
+            value={config.message || ""}
             onChange={changeNotifications(i)}
           />
         </div>
