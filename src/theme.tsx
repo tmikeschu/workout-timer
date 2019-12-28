@@ -22,12 +22,9 @@ injectGlobal`
     margin: 0;
   }
 
-  *,
-  input[type=text],
-  input[type=number],
-  input[type=password] {
+  * {
     box-sizing: border-box;
-    transition: background-color 300ms; color 300ms;
+    transition: background-color 300ms;
   }
 `;
 
@@ -135,6 +132,8 @@ export const ThemeProvider: React.FC<{}> = ({ children }) => {
 export const styled = emotionStyled as CreateStyled<Theme>;
 
 const Button = styled.button`
+  background-color: transparent;
+  border: none;
   svg {
     fill: ${({ theme }): string => theme.body};
   }

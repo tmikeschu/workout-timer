@@ -9,6 +9,21 @@ const Container = styled.div`
   color: ${({ theme }): string => theme.body};
   min-height: 100vh;
   -webkit-overflow-scrolling: touch; /* Lets it scroll lazy */
+  width: 100vw;
+  max-width: 414px;
+  margin: 0 auto;
+
+  &:after {
+    width: 100vw;
+    height: 100vh;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: ${({ theme }): string => theme.body};
+    filter: brightness(0.75);
+    z-index: -1;
+  }
 `;
 
 const Header = styled.div`
@@ -33,8 +48,7 @@ const Checkbox = styled.div`
   }
 
   input {
-    width: 2rem;
-    height: 2rem;
+    transform: scale(2);
   }
 `;
 
@@ -92,6 +106,8 @@ const Button = styled.button`
 
   &:disabled {
     opacity: 0.5;
+    filter: brightness(1);
+    cursor: default;
   }
 `;
 
