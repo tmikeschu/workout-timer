@@ -1,9 +1,15 @@
 {
-  "name": "new",
+  "name": "workout-timer",
   "version": "1.0.0",
-  "description": "",
+  "description": "A timer with announcement functionality.",
   "keywords": [],
   "main": "src/index.tsx",
+  "homepage": "https://tmikeschu.github.io/workout-timer",
+  "author": {
+    "name": "Mike Schutte",
+    "email": "tmikeschu@gmail.com",
+    "url": "https://tmikeschu.com"
+  },
   "dependencies": {
     "@emotion/core": "^10.0.27",
     "@emotion/styled": "^10.0.27",
