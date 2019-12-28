@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/workout-timer/static/js/main.7c9a87ab.chunk.js",
+    "main.js.map": "/workout-timer/static/js/main.7c9a87ab.chunk.js.map",
+    "runtime-main.js": "/workout-timer/static/js/runtime-main.41db7aa4.js",
+    "runtime-main.js.map": "/workout-timer/static/js/runtime-main.41db7aa4.js.map",
+    "static/js/2.96874795.chunk.js": "/workout-timer/static/js/2.96874795.chunk.js",
+    "static/js/2.96874795.chunk.js.map": "/workout-timer/static/js/2.96874795.chunk.js.map",
+    "index.html": "/workout-timer/index.html",
+    "precache-manifest.dfded89fa9239ac11190168afd8270e2.js": "/workout-timer/precache-manifest.dfded89fa9239ac11190168afd8270e2.js",
+    "service-worker.js": "/workout-timer/service-worker.js",
+    "static/js/2.96874795.chunk.js.LICENSE": "/workout-timer/static/js/2.96874795.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.41db7aa4.js",
+    "static/js/2.96874795.chunk.js",
+    "static/js/main.7c9a87ab.chunk.js"
+  ]
+}
