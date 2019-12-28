@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/workout-timer/static/js/main.7c9a87ab.chunk.js",
-    "main.js.map": "/workout-timer/static/js/main.7c9a87ab.chunk.js.map",
+    "main.js": "/workout-timer/static/js/main.2c0d9b62.chunk.js",
+    "main.js.map": "/workout-timer/static/js/main.2c0d9b62.chunk.js.map",
     "runtime-main.js": "/workout-timer/static/js/runtime-main.41db7aa4.js",
     "runtime-main.js.map": "/workout-timer/static/js/runtime-main.41db7aa4.js.map",
-    "static/js/2.96874795.chunk.js": "/workout-timer/static/js/2.96874795.chunk.js",
-    "static/js/2.96874795.chunk.js.map": "/workout-timer/static/js/2.96874795.chunk.js.map",
+    "static/js/2.cbe80a99.chunk.js": "/workout-timer/static/js/2.cbe80a99.chunk.js",
+    "static/js/2.cbe80a99.chunk.js.map": "/workout-timer/static/js/2.cbe80a99.chunk.js.map",
     "index.html": "/workout-timer/index.html",
-    "precache-manifest.dfded89fa9239ac11190168afd8270e2.js": "/workout-timer/precache-manifest.dfded89fa9239ac11190168afd8270e2.js",
+    "precache-manifest.ffee12d5f0014bc7613358cb8774e3bd.js": "/workout-timer/precache-manifest.ffee12d5f0014bc7613358cb8774e3bd.js",
     "service-worker.js": "/workout-timer/service-worker.js",
-    "static/js/2.96874795.chunk.js.LICENSE": "/workout-timer/static/js/2.96874795.chunk.js.LICENSE"
+    "static/js/2.cbe80a99.chunk.js.LICENSE": "/workout-timer/static/js/2.cbe80a99.chunk.js.LICENSE"
   },
   "entrypoints": [
     "static/js/runtime-main.41db7aa4.js",
-    "static/js/2.96874795.chunk.js",
-    "static/js/main.7c9a87ab.chunk.js"
+    "static/js/2.cbe80a99.chunk.js",
+    "static/js/main.2c0d9b62.chunk.js"
   ]
 }
