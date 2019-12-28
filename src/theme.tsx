@@ -1,6 +1,6 @@
-import * as React from "react"
-import { injectGlobal } from "emotion"
-import { ThemeProvider as EmotionProvider } from "emotion-theming"
+import * as React from "react";
+import { injectGlobal } from "emotion";
+import { ThemeProvider as EmotionProvider } from "emotion-theming";
 
 const colors = {
   white: "#FBFEF9",
@@ -11,8 +11,8 @@ const colors = {
   cerullean: "#3454D1",
   lightBlue: "#715AFF",
   darkBlue: "#0E0E52",
-  salmon: "#F49390",
-}
+  salmon: "#F49390"
+};
 
 injectGlobal`
   html, body {
@@ -23,103 +23,107 @@ injectGlobal`
   * {
     box-sizing: border-box;
   }
-`
+`;
 
 interface CommonTheme {
-  error: string
-  success: string
+  error: string;
+  success: string;
 }
 
 export type Theme = CommonTheme & {
-  background: string
-  body: string
-  primary: string
-  primaryAlt: string
-}
+  background: string;
+  body: string;
+  primary: string;
+  primaryAlt: string;
+};
 
 const commonTheme: CommonTheme = {
   error: colors.red,
-  success: colors.green,
-}
+  success: colors.green
+};
 
 const themeLight: Theme = {
   ...commonTheme,
   background: colors.gray,
   body: colors.black,
   primary: colors.salmon,
-  primaryAlt: colors.white,
-}
+  primaryAlt: colors.white
+};
 
 const themeDark: Theme = {
   ...commonTheme,
   background: colors.black,
   body: colors.white,
   primary: colors.cerullean,
-  primaryAlt: colors.white,
-}
+  primaryAlt: colors.white
+};
 
 const theme = (mode: ThemeContext["mode"]): Theme =>
-  mode === "dark" ? themeDark : themeLight
+  mode === "dark" ? themeDark : themeLight;
 
 interface ThemeContext {
-  mode: "dark" | "light"
-  setTheme: (mode?: ThemeContext["mode"]) => void
+  mode: "dark" | "light";
+  setTheme: (mode?: ThemeContext["mode"]) => void;
 }
 
 const defaultThemeContext: ThemeContext = {
   mode: "dark",
-  setTheme: () => {},
-}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setTheme: () => {}
+};
 
-const ThemeContext = React.createContext(defaultThemeContext)
-const useTheme = () => React.useContext(ThemeContext)
+const ThemeContext = React.createContext(defaultThemeContext);
+const useTheme = (): ThemeContext => React.useContext(ThemeContext);
 
-type UseEffectDarkMode = Pick<ThemeContext, "mode"> & { hasMounted: boolean }
-const useEffectDarkMode = () => {
+type UseEffectDarkMode = Pick<ThemeContext, "mode"> & { hasMounted: boolean };
+const useEffectDarkMode = (): [
+  UseEffectDarkMode,
+  React.Dispatch<React.SetStateAction<UseEffectDarkMode>>
+] => {
   const state = React.useState<UseEffectDarkMode>({
     mode: defaultThemeContext.mode,
-    hasMounted: false,
-  })
-  const [, setThemeState] = state
+    hasMounted: false
+  });
+  const [, setThemeState] = state;
 
   React.useEffect(() => {
     const lsMode = (localStorage.getItem("mode") ||
-      "dark") as ThemeContext["mode"]
-    setThemeState(state => ({ ...state, mode: lsMode, hasMounted: true }))
-  }, [setThemeState])
+      "dark") as ThemeContext["mode"];
+    setThemeState(state => ({ ...state, mode: lsMode, hasMounted: true }));
+  }, [setThemeState]);
 
-  return state
-}
+  return state;
+};
 
-const ThemeProvider = ({ children }) => {
-  const [themeState, setThemeState] = useEffectDarkMode()
+const ThemeProvider: React.FC<{}> = ({ children }) => {
+  const [themeState, setThemeState] = useEffectDarkMode();
   if (!themeState.hasMounted) {
-    return <div />
+    return <div />;
   }
 
-  const setTheme = (mode?: ThemeContext["mode"]) => {
+  const setTheme = (mode?: ThemeContext["mode"]): void => {
     const nextThemes = {
       light: "dark",
-      dark: "light",
-    }
+      dark: "light"
+    };
     if (!mode) {
-      mode = nextThemes[themeState.mode] as ThemeContext["mode"]
+      mode = nextThemes[themeState.mode] as ThemeContext["mode"];
     }
-    setThemeState(state => ({ ...state, mode }))
-  }
+    setThemeState(state => ({ ...state, mode } as UseEffectDarkMode));
+  };
 
   return (
     <EmotionProvider theme={theme(themeState.mode)}>
       <ThemeContext.Provider
         value={{
           mode: themeState.mode,
-          setTheme,
+          setTheme
         }}
       >
         {children}
       </ThemeContext.Provider>
     </EmotionProvider>
-  )
-}
+  );
+};
 
-export { ThemeProvider, useTheme }
+export { ThemeProvider, useTheme };

@@ -68,7 +68,7 @@ export const machineConfig: MachineConfig<Context, Schema, Event> = {
       on: {
         "": {
           target: "idle",
-          cond: ({ currentTime }) => currentTime <= 0
+          cond: ({ currentTime }): boolean => currentTime <= 0
         },
         STOP: "idle",
         COUNT_DOWN: {
@@ -103,15 +103,15 @@ export const machineOptions: Partial<MachineOptions<Context, Event>> = {
     })
   },
   services: {
-    timer: () => cb => {
+    timer: () => (cb): (() => void) => {
       const interval = setInterval(() => {
         cb("COUNT_DOWN");
       }, secsToMS(1));
-      return () => {
+      return (): void => {
         clearInterval(interval);
       };
     },
-    plantNotifications: context => () => {
+    plantNotifications: context => (): (() => void) => {
       const timeouts = context.notificationTimes.map(config => {
         const timingFn = config.interval ? setInterval : setTimeout;
         const id = timingFn(() => {
@@ -120,7 +120,7 @@ export const machineOptions: Partial<MachineOptions<Context, Event>> = {
         return { ...config, id };
       });
 
-      return () => {
+      return (): void => {
         console.log("clear timeouts");
         timeouts.forEach(config => {
           const clearTimingFn = config.interval ? clearInterval : clearTimeout;
