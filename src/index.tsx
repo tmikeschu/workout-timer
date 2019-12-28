@@ -5,14 +5,22 @@ import Machine from "./machine";
 import { ThemeProvider, styled } from "./theme";
 import { secsToMS, formatTime, speakableTime } from "./utils";
 
+const Header = styled.div`
+  padding: 1rem;
+`;
+
 const Button = styled.button`
   background-color: ${({ theme }): string => theme.primary};
   color: ${({ theme }): string => theme.primaryAlt};
   border: none;
   padding: 0.5rem 1rem;
   font-family: inherit;
-  margin-right: 1rem;
+  margin-left: 1rem;
   margin-bottom: 1rem;
+
+  &:first-of-type {
+    margin-left: 0;
+  }
 
   &:hover {
     cursor: pointer;
@@ -31,11 +39,27 @@ const Button = styled.button`
 const Actions = styled.div`
   display: flex;
   flex-wrap: wrap;
+  padding: 1rem;
+  justify-content: space-between;
 `;
 
 const NotificationConfig = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 414px;
+  margin-bottom: 1rem;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+  }
 `;
 
 const App: React.FC<{}> = () => {
@@ -109,7 +133,11 @@ const App: React.FC<{}> = () => {
 
   return (
     <div>
-      <h2>{formatTime(current.context.currentTime)}</h2>
+      <Header>
+        <h1>Workout Timer</h1>
+        <h2>{formatTime(current.context.currentTime)}</h2>
+      </Header>
+
       <Actions>
         <Button
           disabled={current.matches("running")}
@@ -144,29 +172,35 @@ const App: React.FC<{}> = () => {
         </Button>
         {current.context.notificationTimes.map((config, i) => (
           <NotificationConfig key={`${i}`}>
-            <input
-              disabled={current.matches("running")}
-              type="number"
-              value={config.time}
-              onChange={changeNotifications(i)}
-            />
-            <label htmlFor={`interval:${i}`}>Interval</label>
-            <input
-              disabled={current.matches("running")}
-              id={`interval:${i}`}
-              type="checkbox"
-              checked={config.interval}
-              onChange={changeNotifications(i)}
-            />
-
-            <label htmlFor={`message:${i}`}>Message</label>
-            <input
-              disabled={current.matches("running")}
-              id={`interval:${i}`}
-              type="text"
-              value={config.message || ""}
-              onChange={changeNotifications(i)}
-            />
+            <label htmlFor={`seconds:${i}`}>
+              Seconds:{" "}
+              <input
+                disabled={current.matches("running")}
+                type="number"
+                value={config.time}
+                onChange={changeNotifications(i)}
+              />
+            </label>
+            <label htmlFor={`interval:${i}`}>
+              Interval:{" "}
+              <input
+                disabled={current.matches("running")}
+                id={`interval:${i}`}
+                type="checkbox"
+                checked={config.interval}
+                onChange={changeNotifications(i)}
+              />
+            </label>
+            <label htmlFor={`message:${i}`}>
+              Message:{" "}
+              <input
+                disabled={current.matches("running")}
+                id={`interval:${i}`}
+                type="text"
+                value={config.message || ""}
+                onChange={changeNotifications(i)}
+              />
+            </label>
           </NotificationConfig>
         ))}
       </Actions>
