@@ -15,8 +15,10 @@ const Button = styled.button`
   border: none;
   padding: 0.5rem 1rem;
   font-family: inherit;
-  margin-left: 1rem;
+  font-size: 1.5rem;
   margin-bottom: 1rem;
+  width: 100%;
+  max-width: 414px;
 
   &:first-of-type {
     margin-left: 0;
@@ -36,6 +38,11 @@ const Button = styled.button`
   }
 `;
 
+const Time = styled.h2`
+  font-size: 3rem;
+  text-align: center;
+`;
+
 const Actions = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -52,6 +59,7 @@ const NotificationConfig = styled.div`
   width: 100%;
   max-width: 414px;
   margin-bottom: 1rem;
+  overflow: hidden;
   &:last-of-type {
     margin-bottom: 0;
   }
@@ -59,6 +67,11 @@ const NotificationConfig = styled.div`
   label {
     display: flex;
     align-items: center;
+    font-size: 1.5rem;
+    input {
+      font-size: 1.5rem;
+      flex: 1;
+    }
   }
 `;
 
@@ -135,7 +148,7 @@ const App: React.FC<{}> = () => {
     <div>
       <Header>
         <h1>Workout Timer</h1>
-        <h2>{formatTime(current.context.currentTime)}</h2>
+        <Time>{formatTime(current.context.currentTime)}</Time>
       </Header>
 
       <Actions>
