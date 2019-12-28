@@ -112,8 +112,9 @@ const Button = styled.button`
 `;
 
 const Time = styled.h2`
-  font-size: 3rem;
+  font-size: 5rem;
   text-align: center;
+  margin: 1rem 0;
 `;
 
 const Actions = styled.div`
