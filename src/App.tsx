@@ -164,6 +164,7 @@ const App: React.FC<{}> = () => {
     }
   }, [message]);
   const speak = (): void => {
+    alert(message);
     const speakable = new SpeechSynthesisUtterance(message);
     window.speechSynthesis.speak(speakable);
   };
