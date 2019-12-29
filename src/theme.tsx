@@ -71,7 +71,7 @@ interface ThemeContext {
 }
 
 const defaultThemeContext: ThemeContext = {
-  mode: "light",
+  mode: "dark",
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setTheme: () => {}
 };
@@ -92,7 +92,7 @@ const useEffectDarkMode = (): [
 
   React.useEffect(() => {
     const lsMode = (localStorage.getItem("mode") ||
-      "light") as ThemeContext["mode"];
+      "dark") as ThemeContext["mode"];
     setThemeState(state => ({ ...state, mode: lsMode, hasMounted: true }));
   }, [setThemeState]);
 
@@ -113,6 +113,7 @@ export const ThemeProvider: React.FC<{}> = ({ children }) => {
     if (!mode) {
       mode = nextThemes[themeState.mode] as ThemeContext["mode"];
     }
+    localStorage.setItem("mode", mode);
     setThemeState(state => ({ ...state, mode } as UseEffectDarkMode));
   };
 
