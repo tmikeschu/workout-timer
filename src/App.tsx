@@ -121,6 +121,7 @@ const Time = styled.h2`
   text-align: center;
   margin: 1rem 0;
   display: flex;
+  justify-content: center;
 `;
 
 const Actions = styled.div`
