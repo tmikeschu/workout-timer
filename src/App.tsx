@@ -155,20 +155,6 @@ const NotificationConfig = styled.div`
 `;
 
 const App: React.FC<{}> = () => {
-  /* HACK https://stackoverflow.com/questions/32193704/js-speech-synthesis-issue-on-ios */
-  const [message, setMessage] = React.useState("");
-  const speakButtonRef = React.useRef<HTMLButtonElement | null>(null);
-  React.useEffect(() => {
-    if (speakButtonRef.current) {
-      speakButtonRef.current.click();
-    }
-  }, [message]);
-  const speak = (): void => {
-    const speakable = new SpeechSynthesisUtterance(message);
-    window.speechSynthesis.speak(speakable);
-  };
-  /* end HACK */
-
   const [current, send] = useMachine(Machine, {
     services: {
       plantNotifications: context => (): (() => void) => {
@@ -183,11 +169,12 @@ const App: React.FC<{}> = () => {
         const timeouts = context.notificationTimes.map(config => {
           const timingFn = config.interval ? setInterval : setTimeout;
           const id = timingFn(() => {
-            const announcement = [speakableTime(getTime()), config.message]
+            const message = [speakableTime(getTime()), config.message]
               .filter(Boolean)
               .join(". ")
               .concat(".");
-            setMessage(announcement);
+            const speakable = new SpeechSynthesisUtterance(message);
+            window.speechSynthesis.speak(speakable);
           }, secsToMS(config.time));
           return { ...config, id };
         });
@@ -264,13 +251,6 @@ const App: React.FC<{}> = () => {
 
   return (
     <Container>
-      {/* HACK https://stackoverflow.com/questions/32193704/js-speech-synthesis-issue-on-ios */}
-      <button
-        ref={speakButtonRef}
-        onClick={speak}
-        style={{ display: "none" }}
-      />
-      {/* end HACK */}
       <Header>
         <h1>Workout Timer</h1>
         <ThemeSwitch />
