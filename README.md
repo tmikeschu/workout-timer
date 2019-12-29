@@ -10,6 +10,11 @@ announced. So I made this!
 ## Tools
 
 - [xstate](https://xstate.js.org/docs/)
+
+  - Here is the [state
+    machine](https://xstate.js.org/viz/?gist=ba4f8077d971ce91d72558453cf5131f)
+    for the app
+
 - [emotion](https://emotion.sh/docs/introduction)
 - [ramda](https://ramdajs.com/docs/)
 - [prettier](https://prettier.io/)
