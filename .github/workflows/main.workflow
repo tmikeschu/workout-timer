@@ -17,7 +17,7 @@ action "Build" {
 action "Deploy" {
   uses = "nchaulet/github-action-gh-pages@master"
   secrets = [
-    "GITHUB_TOKEN",
+    "ACCESS_TOKEN",
   ]
   needs = ["Build"]
   env = {
