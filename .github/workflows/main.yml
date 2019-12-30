@@ -13,6 +13,8 @@ jobs:
     - name: Build
       run: |
         yarn install
+        yarn tsc
+        CI=true yarn test
         yarn run build
 
     - name: Deploy
