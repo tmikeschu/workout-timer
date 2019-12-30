@@ -249,6 +249,11 @@ const App: React.FC<{}> = () => {
     String(time).padStart(2, "0")
   );
 
+  const start = (): void => {
+    window.speechSynthesis.speak(new SpeechSynthesisUtterance("Let's go"));
+    send("START");
+  };
+
   return (
     <Container>
       <Header>
@@ -276,12 +281,7 @@ const App: React.FC<{}> = () => {
       </Header>
 
       <Actions>
-        <Button
-          disabled={current.matches("running")}
-          onClick={(): void => {
-            send("START");
-          }}
-        >
+        <Button disabled={current.matches("running")} onClick={start}>
           Start
         </Button>
         <Button
