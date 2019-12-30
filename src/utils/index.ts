@@ -21,37 +21,41 @@ export const padStart = R.curry(
   }
 );
 
-export const hoursMinutesSeconds = R.juxt([
-  (t: number): number => Math.floor(msToHours(t) % HOURS_IN_DAY),
-  (t: number): number => Math.floor(msToMinutes(t) % MINUTES_IN_HOUR),
-  (t: number): number => Math.floor(msToSecs(t) % SECONDS_IN_MINUTE)
+export const toHoursMinutesSeconds = R.juxt([
+  R.pipe(msToHours, R.modulo(R.__, HOURS_IN_DAY), Math.floor),
+  R.pipe(msToMinutes, R.modulo(R.__, MINUTES_IN_HOUR), Math.floor),
+  R.pipe(msToSecs, R.modulo(R.__, SECONDS_IN_MINUTE), Math.floor)
 ]);
 
-export const fromHoursMinutesSeconds = ([hours, minutes, seconds]: [
-  number,
-  number,
-  number
-]): number => {
-  return hoursToMS(hours) + minsToMS(minutes) + secsToMS(seconds);
-};
+function call<T, U>(fn: (t: T) => U, t: T): U {
+  return fn(t);
+}
 
-export const speakableTime = (time: number): string => {
-  const [hours, minutes, seconds] = hoursMinutesSeconds(time);
-  let msg = "";
-  if (hours > 0) {
-    msg += `${hours} hour${hours === 1 ? "" : "s"}. `;
-  }
-  if (minutes > 0) {
-    msg += `${minutes} minute${minutes === 1 ? "" : "s"}. `;
-  }
-  if (seconds > 0) {
-    msg += `${seconds} second${seconds === 1 ? "" : "s"}`;
-  }
-  return msg;
-};
+export const fromHoursMinutesSeconds = R.pipe(
+  R.zipWith<(n: number) => number, number, number>(call, [
+    hoursToMS,
+    minsToMS,
+    secsToMS
+  ]),
+  R.sum
+);
+
+export const speakableTime = R.pipe(
+  toHoursMinutesSeconds,
+  R.zip(["hour", "minute", "second"]),
+  R.map(
+    R.ifElse(
+      R.pipe(R.last, R.gt(R.__, 0)),
+      ([label, time]) => `${time} ${label}${time === 1 ? "" : "s"}`,
+      R.always("")
+    )
+  ),
+  R.join(". "),
+  s => s.concat(".")
+);
 
 export const formatTime = R.pipe(
-  hoursMinutesSeconds,
+  toHoursMinutesSeconds,
   R.map(R.pipe(String, padStart(2, "0"))),
   R.join(":")
 );

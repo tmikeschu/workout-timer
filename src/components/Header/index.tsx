@@ -2,7 +2,7 @@ import * as React from "react";
 import { useMachine } from "@xstate/react";
 import Machine from "machine";
 import { styled, ThemeSwitch } from "theme";
-import { hoursMinutesSeconds, fromHoursMinutesSeconds } from "utils";
+import { toHoursMinutesSeconds, fromHoursMinutesSeconds } from "utils";
 
 const Container = styled.div`
   padding: 1rem;
@@ -26,7 +26,7 @@ const Time = styled.h2`
 const Header: React.FC<{}> = () => {
   const [current, send] = useMachine(Machine);
 
-  const hms = hoursMinutesSeconds(current.context.currentTime);
+  const hms = toHoursMinutesSeconds(current.context.currentTime);
 
   const changeHours = (e: React.FocusEvent<HTMLInputElement>): void => {
     const hours = Number(e.target.innerText);
