@@ -29,6 +29,7 @@
       body {
         margin: 0;
         padding: 0;
+        font-family: 'Inconsolata', sans-serif;
       }
     </style>
   </head>
@@ -42,17 +43,6 @@
         Loading...
       </p>
     </div>
-
-    <!-- HACK https://stackoverflow.com/questions/32193704/js-speech-synthesis-issue-on-ios -->
-    <a id="trigger_me" onclick="speech_text()"></a>
-    <script>
-      function speech_text() {
-        var msg = new SpeechSynthesisUtterance('');
-        window.speechSynthesis.speak(msg);
-      }
-      document.getElementById('trigger_me').click()
-    </script>
-    <!-- end HACK -->
 
     <script>
       if ('serviceWorker' in navigator) {
