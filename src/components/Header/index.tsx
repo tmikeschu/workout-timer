@@ -1,8 +1,7 @@
 import * as React from "react";
-import { useMachine } from "@xstate/react";
-import Machine from "machine";
 import { styled, ThemeSwitch } from "theme";
 import { toHoursMinutesSeconds, fromHoursMinutesSeconds } from "utils";
+import { AppMachineContext } from "contexts/machine";
 
 const Container = styled.div`
   padding: 1rem;
@@ -24,7 +23,7 @@ const Time = styled.h2`
 `;
 
 const Header: React.FC<{}> = () => {
-  const [current, send] = useMachine(Machine);
+  const [current, send] = React.useContext(AppMachineContext);
 
   const hms = toHoursMinutesSeconds(current.context.currentTime);
 
