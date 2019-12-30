@@ -71,7 +71,9 @@ interface ThemeContext {
 }
 
 const defaultThemeContext: ThemeContext = {
-  mode: "dark",
+  mode: window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light",
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setTheme: () => {}
 };
