@@ -1,38 +1,10 @@
 import { MachineConfig, MachineOptions, assign, Machine } from "xstate";
 import { minsToMS, secsToMS } from "./utils";
-
-type Schema = {
-  states: {
-    idle: {};
-    running: {};
-  };
-};
-
-type StartEvent = {
-  type: "START";
-};
-type SetTimeEvent = {
-  type: "SET_TIME";
-  payload: { time: number };
-};
-type SetNotificationsTimesEvent = {
-  type: "SET_NOTIFICATION_TIMES";
-  payload: { notificationTimes: NotificationConfig[] };
-};
-type Event =
-  | StartEvent
-  | SetTimeEvent
-  | SetNotificationsTimesEvent
-  | { type: "STOP" }
-  | { type: "COUNT_DOWN" }
-  | { type: "RESET" };
-
-type NotificationConfig = { time: number; interval: boolean; message?: string };
-type Context = {
-  initialTime: number;
-  currentTime: number;
-  notificationTimes: NotificationConfig[];
-};
+import {
+  AppMachineEvent as Event,
+  AppMachineSchema as Schema,
+  AppMachineContext as Context
+} from "types";
 
 export const machineConfig: MachineConfig<Context, Schema, Event> = {
   initial: "idle",

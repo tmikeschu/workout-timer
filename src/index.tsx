@@ -3,11 +3,14 @@ import { render } from "react-dom";
 import { ThemeProvider } from "./theme";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import { AppMachineProvider } from "contexts/machine";
 
 const rootElement = document.getElementById("root");
 render(
   <ThemeProvider>
-    <App />
+    <AppMachineProvider>
+      <App />
+    </AppMachineProvider>
   </ThemeProvider>,
   rootElement
 );
