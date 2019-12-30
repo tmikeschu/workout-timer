@@ -49,7 +49,7 @@ export const AppMachineProvider = ({
             return context.initialTime - (now - startedAt - 1000);
           };
 
-          const timeouts = context.notificationTimes.map(config => {
+          const timeouts = context.announcementTimes.map(config => {
             const timingFn = config.interval ? setInterval : setTimeout;
             const id = timingFn(() => {
               const message = [speakableTime(getTime()), config.message]

@@ -4,7 +4,7 @@ import Header from "./";
 
 describe("snapshot", () => {
   it("is correct", () => {
-    const tree = render(<Header />);
+    const tree = render(<Header />).baseElement;
     expect(tree).toMatchSnapshot();
   });
 });

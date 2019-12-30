@@ -12,7 +12,7 @@ export const machineConfig: MachineConfig<Context, Schema, Event> = {
   context: {
     initialTime: minsToMS(6),
     currentTime: minsToMS(6),
-    notificationTimes: []
+    announcementTimes: []
   },
   states: {
     idle: {
@@ -24,16 +24,16 @@ export const machineConfig: MachineConfig<Context, Schema, Event> = {
         SET_TIME: {
           actions: ["setTime"]
         },
-        SET_NOTIFICATION_TIMES: {
+        SET_ANNOUNCEMENT_TIMES: {
           internal: false,
-          actions: ["setNotifications"]
+          actions: ["setAnnouncements"]
         }
       }
     },
     running: {
       invoke: [
         { src: "timer", id: "timer" },
-        { src: "plantNotifications", id: "plantNotifications" }
+        { src: "plantAnnouncements", id: "plantAnnouncements" }
       ],
       on: {
         "": {
@@ -51,12 +51,12 @@ export const machineConfig: MachineConfig<Context, Schema, Event> = {
 
 export const machineOptions: Partial<MachineOptions<Context, Event>> = {
   actions: {
-    setNotifications: assign<Context, Event>({
-      notificationTimes: (context, event) => {
-        if (event.type === "SET_NOTIFICATION_TIMES") {
-          return event.payload.notificationTimes;
+    setAnnouncements: assign<Context, Event>({
+      announcementTimes: (context, event) => {
+        if (event.type === "SET_ANNOUNCEMENT_TIMES") {
+          return event.payload.announcementTimes;
         }
-        return context.notificationTimes;
+        return context.announcementTimes;
       }
     }),
     setTime: assign<Context, Event>({

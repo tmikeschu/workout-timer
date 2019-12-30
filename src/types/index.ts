@@ -1,4 +1,5 @@
-export type NotificationConfig = {
+export type IAnnouncementConfig = {
+  id: string;
   time: number;
   interval: boolean;
   message?: string;
@@ -20,15 +21,15 @@ export type SetTimeEvent = {
   payload: { time: number };
 };
 
-export type SetNotificationsTimesEvent = {
-  type: "SET_NOTIFICATION_TIMES";
-  payload: { notificationTimes: NotificationConfig[] };
+export type SetAnnouncementTimesEvent = {
+  type: "SET_ANNOUNCEMENT_TIMES";
+  payload: { announcementTimes: IAnnouncementConfig[] };
 };
 
 export type AppMachineEvent =
   | StartEvent
   | SetTimeEvent
-  | SetNotificationsTimesEvent
+  | SetAnnouncementTimesEvent
   | { type: "STOP" }
   | { type: "COUNT_DOWN" }
   | { type: "RESET" };
@@ -36,5 +37,5 @@ export type AppMachineEvent =
 export type AppMachineContext = {
   initialTime: number;
   currentTime: number;
-  notificationTimes: NotificationConfig[];
+  announcementTimes: IAnnouncementConfig[];
 };
