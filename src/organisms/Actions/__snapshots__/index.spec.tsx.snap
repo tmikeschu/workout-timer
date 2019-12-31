@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Actions renders correctly 1`] = `
+<div>
+  <div
+    class="css-vcirm2"
+  >
+    <button
+      class="css-twz5y6"
+    >
+      Start
+    </button>
+    <button
+      class="css-twz5y6"
+      disabled=""
+    >
+      Stop
+    </button>
+    <button
+      class="css-twz5y6"
+      disabled=""
+    >
+      Reset
+    </button>
+    <button
+      class="css-twz5y6"
+    >
+      Add Announcement
+    </button>
+  </div>
+</div>
+`;
