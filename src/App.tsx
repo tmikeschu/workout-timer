@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled } from "./theme";
-import Header from "components/Header";
-import AnnouncementConfig from "components/AnnouncementConfig";
+import Header from "organisms/Header";
+import AnnouncementConfig from "molecules/AnnouncementConfig";
 import { AppMachineContext } from "contexts/machine";
 import { createUUID } from "utils";
 
