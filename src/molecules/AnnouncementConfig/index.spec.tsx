@@ -8,7 +8,7 @@ describe("snapshot", () => {
       <AnnouncementConfig
         config={{ id: "aoeu1234", time: 6000, message: "", interval: false }}
       />
-    ).baseElement;
+    ).container;
     expect(tree).toMatchSnapshot();
   });
 });

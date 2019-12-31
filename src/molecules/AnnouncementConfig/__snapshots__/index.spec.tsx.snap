@@ -1,53 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`snapshot is correct 1`] = `
-<body>
-  <div>
+<div>
+  <div
+    class="css-1rhn9fe"
+  >
     <div
-      class="css-1rhn9fe"
+      class="css-1fs3skl"
     >
-      <div
-        class="css-1fs3skl"
+      <label
+        for="seconds:aoeu1234"
       >
-        <label
-          for="seconds:aoeu1234"
-        >
-          Seconds
-        </label>
-        <input
-          type="number"
-          value="6000"
-        />
-      </div>
-      <div
-        class="css-1fs3skl"
+        Seconds
+      </label>
+      <input
+        type="number"
+        value="6000"
+      />
+    </div>
+    <div
+      class="css-1fs3skl"
+    >
+      <label
+        for="message:aoeu1234"
       >
-        <label
-          for="message:aoeu1234"
-        >
-          Message
-        </label>
-        <input
-          id="interval:aoeu1234"
-          placeholder="Woohoo!"
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        class="css-6rk6kf"
+        Message
+      </label>
+      <input
+        id="interval:aoeu1234"
+        placeholder="Woohoo!"
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      class="css-6rk6kf"
+    >
+      <label
+        for="interval:aoeu1234"
       >
-        <label
-          for="interval:aoeu1234"
-        >
-          Interval:
-        </label>
-        <input
-          id="interval:aoeu1234"
-          type="checkbox"
-        />
-      </div>
+        Interval:
+      </label>
+      <input
+        id="interval:aoeu1234"
+        type="checkbox"
+      />
     </div>
   </div>
-</body>
+</div>
 `;

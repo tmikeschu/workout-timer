@@ -4,7 +4,7 @@ import Button from "./";
 
 describe("Button", () => {
   it("has correct snapshot", () => {
-    const tree = render(<Button />).baseElement;
+    const tree = render(<Button />).container;
     expect(tree).toMatchSnapshot();
   });
 });
