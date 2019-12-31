@@ -90,7 +90,7 @@ const AnnouncementConfig: React.FC<Props> = ({ config }) => {
   ): void => {
     const draft = [...current.context.announcementTimes];
     const i = draft.findIndex(config => id === config.id);
-    if (i) {
+    if (i != null) {
       switch (e.target.type as "checkbox" | "number" | "text") {
         case "checkbox": {
           draft[i].interval = e.target.checked;
