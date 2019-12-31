@@ -2,6 +2,7 @@ import * as React from "react";
 import { styled } from "./theme";
 import Header from "organisms/Header";
 import AnnouncementConfig from "molecules/AnnouncementConfig";
+import Button from "atoms/Button";
 import { AppMachineContext } from "contexts/machine";
 import { createUUID } from "utils";
 
@@ -24,37 +25,6 @@ const Container = styled.div`
     background-color: ${({ theme }): string => theme.body};
     filter: brightness(0.75);
     z-index: -1;
-  }
-`;
-
-const Button = styled.button`
-  background-color: ${({ theme }): string => theme.primary};
-  color: ${({ theme }): string => theme.primaryAlt};
-  border: none;
-  padding: 0.5rem 1rem;
-  font-family: inherit;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  width: 100%;
-  max-width: 414px;
-
-  &:last-of-type {
-    margin-bottom: 0;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  &:hover,
-  &:focus {
-    filter: brightness(0.75);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    filter: brightness(1);
-    cursor: default;
   }
 `;
 
