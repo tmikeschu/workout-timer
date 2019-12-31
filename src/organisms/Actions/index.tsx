@@ -23,7 +23,6 @@ const Actions: React.FC<{}> = () => {
   };
   const fresh = current.context.initialTime === current.context.currentTime;
   const start = (): void => {
-    window.speechSynthesis.speak(new SpeechSynthesisUtterance("Let's go"));
     send("START");
   };
 

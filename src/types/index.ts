@@ -9,6 +9,7 @@ export type AppMachineSchema = {
   states: {
     idle: {};
     running: {};
+    complete: {};
   };
 };
 
@@ -26,7 +27,13 @@ export type SetAnnouncementTimesEvent = {
   payload: { announcementTimes: IAnnouncementConfig[] };
 };
 
+export type AnnounceEvent = {
+  type: "ANNOUNCE";
+  payload: { message: string };
+};
+
 export type AppMachineEvent =
+  | AnnounceEvent
   | StartEvent
   | SetTimeEvent
   | SetAnnouncementTimesEvent
@@ -39,3 +46,7 @@ export type AppMachineContext = {
   currentTime: number;
   announcementTimes: IAnnouncementConfig[];
 };
+
+export enum LocalStorageKeys {
+  DEFAULT_TIME = "defaultTime"
+}

@@ -6,7 +6,9 @@ import { secsToMS, speakableTime } from "utils";
 import {
   AppMachineEvent,
   AppMachineSchema,
-  AppMachineContext as AppMachineExtendedState
+  AppMachineContext as AppMachineExtendedState,
+  AnnounceEvent,
+  LocalStorageKeys
 } from "types";
 
 type UseableMachine = [
@@ -39,8 +41,18 @@ export const AppMachineProvider = ({
   const machine = useMachine<AppMachineExtendedState, AppMachineEvent>(
     appMachine,
     {
+      actions: {
+        storeTime: (_, event): void => {
+          if (event.type === "SET_TIME") {
+            localStorage.setItem(
+              LocalStorageKeys.DEFAULT_TIME,
+              String(event.payload.time)
+            );
+          }
+        }
+      },
       services: {
-        plantNotifications: context => (): (() => void) => {
+        plantAnnouncements: context => (cb): (() => void) => {
           const startedAt = new Date().getTime();
           const getTime = (): number => {
             const now = new Date().getTime();
@@ -56,8 +68,8 @@ export const AppMachineProvider = ({
                 .filter(Boolean)
                 .join(". ")
                 .concat(".");
-              const speakable = new SpeechSynthesisUtterance(message);
-              window.speechSynthesis.speak(speakable);
+
+              cb({ type: "ANNOUNCE", payload: { message } });
             }, secsToMS(config.time));
             return { ...config, id };
           });
@@ -69,6 +81,18 @@ export const AppMachineProvider = ({
                 : clearTimeout;
               clearTimingFn(config.id);
             });
+          };
+        },
+        announcer: () => (_, onEvent): (() => void) => {
+          const speakable = new SpeechSynthesisUtterance();
+          onEvent(event => {
+            if (event.type === "ANNOUNCE") {
+              speakable.text = (event as AnnounceEvent).payload.message;
+              window.speechSynthesis.speak(speakable);
+            }
+          });
+          return (): void => {
+            window.speechSynthesis.cancel();
           };
         }
       }
