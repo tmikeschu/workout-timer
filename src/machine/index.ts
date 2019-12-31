@@ -1,5 +1,5 @@
 import { MachineConfig, MachineOptions, assign, Machine } from "xstate";
-import { minsToMS, secsToMS } from "./utils";
+import { minsToMS, secsToMS } from "utils";
 import {
   AppMachineEvent as Event,
   AppMachineSchema as Schema,
