@@ -2,6 +2,7 @@ import * as React from "react";
 import { styled, ThemeSwitch } from "theme";
 import { toHoursMinutesSeconds, fromHoursMinutesSeconds } from "utils";
 import { AppMachineContext } from "contexts/machine";
+import NumberInput from "atoms/NumberInput";
 
 const Container = styled.div`
   padding: 1rem;
@@ -9,13 +10,11 @@ const Container = styled.div`
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  h2 {
-    width: 100%;
-  }
 `;
 
-const Time = styled.h2`
-  font-size: 5rem;
+const Time = styled.div`
+  width: 100%;
+  font-size: 4rem;
   text-align: center;
   margin: 1rem 0;
   display: flex;
@@ -27,20 +26,20 @@ const Header: React.FC<{}> = () => {
 
   const hms = toHoursMinutesSeconds(current.context.currentTime);
 
-  const changeHours = (e: React.FocusEvent<HTMLInputElement>): void => {
-    const hours = Number(e.target.innerText);
+  const changeHours = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const hours = Number(e.target.value);
     const time = fromHoursMinutesSeconds([hours, hms[1], hms[2]]);
     send({ type: "SET_TIME", payload: { time } });
   };
 
-  const changeMinutes = (e: React.FocusEvent<HTMLInputElement>): void => {
-    const minutes = Number(e.target.innerText);
+  const changeMinutes = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const minutes = Number(e.target.value);
     const time = fromHoursMinutesSeconds([hms[0], minutes, hms[2]]);
     send({ type: "SET_TIME", payload: { time } });
   };
 
-  const changeSeconds = (e: React.FocusEvent<HTMLInputElement>): void => {
-    const seconds = Number(e.target.innerText);
+  const changeSeconds = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const seconds = Number(e.target.value);
     const time = fromHoursMinutesSeconds([hms[0], hms[1], seconds]);
     send({ type: "SET_TIME", payload: { time } });
   };
@@ -50,26 +49,33 @@ const Header: React.FC<{}> = () => {
   );
 
   return (
-    <Container>
+    <Container data-testid="Header">
       <h1>Workout Timer</h1>
       <ThemeSwitch />
       <Time>
-        <div
-          contentEditable={true}
-          onBlur={changeHours}
-          dangerouslySetInnerHTML={{ __html: hours }}
+        <NumberInput
+          max={24}
+          min={0}
+          maxLength={2}
+          data-testid="Header__hours"
+          onChange={changeHours}
+          value={hours}
         />
-        :
-        <div
-          contentEditable={true}
-          onBlur={changeMinutes}
-          dangerouslySetInnerHTML={{ __html: minutes }}
+        <span>:</span>
+        <NumberInput
+          max={59}
+          min={0}
+          data-testid="Header__minutes"
+          onChange={changeMinutes}
+          value={minutes}
         />
-        :
-        <div
-          contentEditable={true}
-          onBlur={changeSeconds}
-          dangerouslySetInnerHTML={{ __html: seconds }}
+        <span>:</span>
+        <NumberInput
+          max={59}
+          min={0}
+          data-testid="Header__seconds"
+          onChange={changeSeconds}
+          value={seconds}
         />
       </Time>
     </Container>

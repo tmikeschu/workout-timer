@@ -3,7 +3,8 @@
 exports[`snapshot is correct 1`] = `
 <div>
   <div
-    class="css-uh9obs"
+    class="css-1x3r7k1"
+    data-testid="Header"
   >
     <h1>
       Workout Timer
@@ -21,27 +22,41 @@ exports[`snapshot is correct 1`] = `
         />
       </svg>
     </button>
-    <h2
-      class="css-10xeong"
+    <div
+      class="css-1cq6iwq"
     >
-      <div
-        contenteditable="true"
-      >
-        00
-      </div>
-      :
-      <div
-        contenteditable="true"
-      >
-        06
-      </div>
-      :
-      <div
-        contenteditable="true"
-      >
-        00
-      </div>
-    </h2>
+      <input
+        class="css-7pvvo7"
+        data-testid="Header__hours"
+        max="24"
+        maxlength="2"
+        min="0"
+        type="number"
+        value="00"
+      />
+      <span>
+        :
+      </span>
+      <input
+        class="css-7pvvo7"
+        data-testid="Header__minutes"
+        max="59"
+        min="0"
+        type="number"
+        value="06"
+      />
+      <span>
+        :
+      </span>
+      <input
+        class="css-7pvvo7"
+        data-testid="Header__seconds"
+        max="59"
+        min="0"
+        type="number"
+        value="00"
+      />
+    </div>
   </div>
 </div>
 `;

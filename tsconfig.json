@@ -1,5 +1,5 @@
 {
-  "include": ["./src/**/*"],
+  "include": ["src", "cypress"],
   "compilerOptions": {
     "lib": ["dom", "esnext"],
     "jsx": "react",

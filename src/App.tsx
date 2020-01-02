@@ -35,7 +35,7 @@ const App: React.FC<{}> = () => {
   const [current] = React.useContext(AppMachineContext);
 
   return (
-    <Container>
+    <Container data-testid="App">
       <Header />
       <Actions />
       <Announcements>

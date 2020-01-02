@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NumberInput renders correctly 1`] = `
+<div>
+  <input
+    class="css-7pvvo7"
+    type="number"
+  />
+</div>
+`;

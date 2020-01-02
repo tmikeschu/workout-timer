@@ -3,6 +3,7 @@ import PropTypes, { InferProps } from "prop-types";
 import { styled } from "theme";
 import { IAnnouncementConfig } from "types";
 import { AppMachineContext } from "contexts/machine";
+import NumberInput from "atoms/NumberInput";
 
 const Container = styled.div`
   background-color: ${({ theme }): string => theme.background};
@@ -113,12 +114,12 @@ const AnnouncementConfig: React.FC<Props> = ({ config }) => {
   };
 
   return (
-    <Container>
+    <Container data-testid="AnnouncementConfig">
       <TextInput>
         <label htmlFor={`seconds:${config.id}`}>Seconds</label>
-        <input
+        <NumberInput
+          data-testid="AnnouncementConfig__time"
           disabled={current.matches("running")}
-          type="number"
           value={config.time}
           onChange={changeNotifications(config.id)}
         />
@@ -127,6 +128,7 @@ const AnnouncementConfig: React.FC<Props> = ({ config }) => {
       <TextInput>
         <label htmlFor={`message:${config.id}`}>Message</label>
         <input
+          data-testid="AnnouncementConfig__message"
           disabled={current.matches("running")}
           placeholder="Woohoo!"
           id={`interval:${config.id}`}
@@ -139,6 +141,7 @@ const AnnouncementConfig: React.FC<Props> = ({ config }) => {
       <Checkbox>
         <label htmlFor={`interval:${config.id}`}>Interval:</label>
         <input
+          data-testid="AnnouncementConfig__interval"
           disabled={current.matches("running")}
           id={`interval:${config.id}`}
           type="checkbox"

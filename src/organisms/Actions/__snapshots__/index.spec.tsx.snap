@@ -24,6 +24,7 @@ exports[`Actions renders correctly 1`] = `
     </button>
     <button
       class="css-twz5y6"
+      data-testid="Actions__addAnnouncement"
     >
       Add Announcement
     </button>

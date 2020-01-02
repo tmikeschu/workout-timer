@@ -49,6 +49,7 @@ const Actions: React.FC<{}> = () => {
         Reset
       </Button>
       <Button
+        data-testid="Actions__addAnnouncement"
         onClick={addAnnouncement}
         disabled={!fresh || current.matches("running")}
       >
