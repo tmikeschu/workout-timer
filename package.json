@@ -23,6 +23,7 @@
     "emotion": "10.0.27",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "6.9.0",
+    "eslint-plugin-cypress": "^2.8.1",
     "eslint-plugin-prettier": "3.1.2",
     "gh-pages": "^2.1.1",
     "prettier": "^1.19.1",
@@ -35,9 +36,11 @@
     "xstate": "4.7.3"
   },
   "devDependencies": {
+    "@bahmutov/add-typescript-to-cypress": "^2.1.2",
     "@testing-library/react": "^9.4.0",
     "@types/react": "16.9.17",
     "@types/react-dom": "16.9.4",
+    "cypress": "^3.8.1",
     "husky": "^3.1.0",
     "lint-staged": "^10.0.0-beta.14",
     "typescript": "3.7.4"
@@ -48,7 +51,9 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "cypress": "cypress open",
+    "cypress:all": "cypress run"
   },
   "browserslist": [
     ">0.2%",
