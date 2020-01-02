@@ -1,6 +1,7 @@
 {
-  "include": ["src", "cypress"],
+  "include": ["./node_modules/@types/jest", "cypress", "src"],
   "compilerOptions": {
+    "types": ["@types/jest", "cypress"],
     "lib": ["dom", "esnext"],
     "jsx": "react",
     "target": "es5",
