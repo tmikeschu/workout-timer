@@ -5,6 +5,7 @@ import Actions from "organisms/Actions";
 import AnnouncementConfig from "molecules/AnnouncementConfig";
 import { AppMachineContext } from "contexts/machine";
 import Button from "atoms/Button";
+import { version } from "../package.json";
 
 const Container = styled.div`
   background-color: ${({ theme }): string => theme.background};
@@ -40,6 +41,11 @@ const Refresh = styled(Button)`
   background-color: ${({ theme }): string => theme.success};
 `;
 
+const Version = styled.p`
+  width: 100%;
+  text-align: center;
+`;
+
 declare let isUpdateAvailable: Promise<boolean>;
 
 const App: React.FC<{}> = () => {
@@ -69,6 +75,7 @@ const App: React.FC<{}> = () => {
       {updateAvailable && (
         <Refresh onClick={refresh}>Refresh for update</Refresh>
       )}
+      <Version>Version: {version}</Version>
     </Container>
   );
 };
