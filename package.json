@@ -64,12 +64,13 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && yarn tsc && CI=true yarn test"
+      "pre-commit": "lint-staged && yarn tsc"
     }
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "eslint --fix --max-warnings 0"
+      "eslint --fix --max-warnings 0",
+      "jest --bail --passWithNoTests --findRelatedTests --ci"
     ]
   }
 }

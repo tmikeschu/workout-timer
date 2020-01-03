@@ -25,6 +25,7 @@ injectGlobal`
   }
 
   * {
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     transition: background-color 300ms;
   }
