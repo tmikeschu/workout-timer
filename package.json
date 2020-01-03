@@ -1,6 +1,6 @@
 {
   "name": "workout-timer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A timer with announcement functionality.",
   "keywords": [],
   "main": "src/index.tsx",
