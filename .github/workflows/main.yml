@@ -4,31 +4,17 @@ on:
     branches:
       - master
 jobs:
-  test-build-deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v1
 
-    - name: Test
+    - name: Build
       run: |
         yarn install
         yarn tsc
         CI=true yarn test
-
-    - name: Cypress run
-      uses: cypress-io/github-action@v1
-      with:
-        # Linux and MacOS
-        start: yarn start
-        # Takes precedences on Windows
-        start-windows: yarn run start:windows:server
-      env:
-        CYPRESS_baseUrl: http://10.1.0.4:3000
-
-    - name: Build
-      run: |
-        yarn install
         yarn run build
 
     - name: Deploy
