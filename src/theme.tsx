@@ -21,6 +21,7 @@ injectGlobal`
     padding: 0;
     margin: 0;
     font-family: 'Inconsolata', sans-serif;
+    overflow-x: hidden;
   }
 
   * {
