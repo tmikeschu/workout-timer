@@ -19,6 +19,7 @@ jobs:
     - name: Cypress run
       uses: cypress-io/github-action@v1
       with:
+        env: host=http://10.1.0.4:3000/
         # Linux and MacOS
         start: yarn start
         # Takes precedences on Windows
