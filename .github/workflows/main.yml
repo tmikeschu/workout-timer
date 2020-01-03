@@ -4,7 +4,34 @@ on:
     branches:
       - master
 jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Test
+      run: |
+        yarn install
+        yarn tsc
+        CI=true yarn test
+
+  e2e:
+    needs: unit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Cypress run
+        uses: cypress-io/github-action@v1
+        with:
+          # Linux and MacOS
+          start: npm start
+          # Takes precedences on Windows
+          start-windows: npm run start:windows:server
+
   build-and-deploy:
+    needs: e2e
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -13,8 +40,6 @@ jobs:
     - name: Build
       run: |
         yarn install
-        yarn tsc
-        CI=true yarn test
         yarn run build
 
     - name: Deploy
