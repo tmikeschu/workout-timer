@@ -14,6 +14,7 @@ jobs:
         with:
           # Linux and MacOS
           start: npm start
+          wait-on: 'http://localhost:3000'
           # Takes precedences on Windows
           start-windows: npm run start:windows:server
   build-and-deploy:
