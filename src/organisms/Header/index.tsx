@@ -20,6 +20,7 @@ const Time = styled.div`
   display: flex;
   justify-content: center;
   & > input {
+    padding: 0;
     max-width: 25%;
   }
 `;

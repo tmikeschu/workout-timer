@@ -50,6 +50,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "test:staged": "CI=true react-scripts test --env=jsdom --bail --passWithNoTests --findRelatedTests",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
@@ -70,7 +71,7 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "eslint --fix --max-warnings 0",
-      "jest --bail --passWithNoTests --findRelatedTests --ci"
+      "yarn run test:staged"
     ]
   }
 }
