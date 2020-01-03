@@ -19,6 +19,9 @@ const Time = styled.div`
   margin: 1rem 0;
   display: flex;
   justify-content: center;
+  & > input {
+    max-width: 25%;
+  }
 `;
 
 const Header: React.FC<{}> = () => {

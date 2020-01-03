@@ -113,8 +113,16 @@ export const machineOptions: Partial<MachineOptions<Context, Event>> = {
     })
   },
   services: {
-    // define "noSleep" in AppMachineProvider
-    // define "announcer" in AppMachineProvider
+    noSleep: () => (): (() => void) => {
+      return (): void => {
+        // define "noSleep" in AppMachineProvider
+      };
+    },
+    announcer: () => (): (() => void) => {
+      return (): void => {
+        // define "announcer" in AppMachineProvider
+      };
+    },
     // define "plantAnnouncements" in AppMachineProvider
     timer: () => (cb): (() => void) => {
       const interval = setInterval(() => {
