@@ -5,7 +5,6 @@ on:
       - master
 jobs:
   test-build-deploy:
-    needs: e2e
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
