@@ -26,7 +26,10 @@ export const machineConfig: MachineConfig<Context, Schema, Event> = {
     currentTime: defaultTime,
     announcementTimes: []
   },
-  invoke: [{ src: "announcer", id: "announcer" }],
+  invoke: [
+    { src: "announcer", id: "announcer" },
+    { src: "noSleep", id: "noSleep" }
+  ],
   states: {
     idle: {
       on: {
@@ -110,6 +113,7 @@ export const machineOptions: Partial<MachineOptions<Context, Event>> = {
     })
   },
   services: {
+    // define "noSleep" in AppMachineProvider
     // define "announcer" in AppMachineProvider
     // define "plantAnnouncements" in AppMachineProvider
     timer: () => (cb): (() => void) => {

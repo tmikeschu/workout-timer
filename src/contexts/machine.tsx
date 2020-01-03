@@ -1,6 +1,7 @@
 import React, { ReactElement, Props, Context } from "react";
 import { State, Interpreter, interpret } from "xstate";
 import { useMachine } from "@xstate/react";
+import NoSleep from "nosleep.js";
 import appMachine from "machine";
 import { secsToMS, speakableTime } from "utils";
 import {
@@ -93,6 +94,22 @@ export const AppMachineProvider = ({
           });
           return (): void => {
             window.speechSynthesis.cancel();
+          };
+        },
+        noSleep: () => (): (() => void) => {
+          const noSleep = new NoSleep();
+
+          document.addEventListener(
+            "click",
+            function enableNoSleep() {
+              document.removeEventListener("click", enableNoSleep, false);
+              noSleep.enable();
+            },
+            false
+          );
+
+          return (): void => {
+            noSleep.disable();
           };
         }
       }
