@@ -118,6 +118,24 @@ describe("speakableTime", () => {
     const expected = "1 hour. 6 minutes. 46 seconds.";
     expect(actual).toEqual(expected);
   });
+
+  it("formats minutes and seconds", () => {
+    const actual = speakableTime(306000);
+    const expected = "5 minutes. 6 seconds.";
+    expect(actual).toEqual(expected);
+  });
+
+  it("formats minutes", () => {
+    const actual = speakableTime(300000);
+    const expected = "5 minutes.";
+    expect(actual).toEqual(expected);
+  });
+
+  it("formats seconds", () => {
+    const actual = speakableTime(6000);
+    const expected = "6 seconds.";
+    expect(actual).toEqual(expected);
+  });
 });
 
 describe("formatTime", () => {

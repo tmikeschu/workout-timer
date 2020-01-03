@@ -50,6 +50,7 @@ export const speakableTime = R.pipe(
       R.always("")
     )
   ),
+  R.filter(Boolean),
   R.join(". "),
   s => s.concat(".")
 );
