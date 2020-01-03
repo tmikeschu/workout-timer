@@ -4,6 +4,7 @@ import Header from "organisms/Header";
 import Actions from "organisms/Actions";
 import AnnouncementConfig from "molecules/AnnouncementConfig";
 import { AppMachineContext } from "contexts/machine";
+import Button from "atoms/Button";
 
 const Container = styled.div`
   background-color: ${({ theme }): string => theme.background};
@@ -31,8 +32,29 @@ const Announcements = styled.div`
   padding: 0 1rem;
 `;
 
+const Refresh = styled(Button)`
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+  background-color: ${({ theme }): string => theme.success};
+`;
+
+declare let isUpdateAvailable: Promise<boolean>;
+
 const App: React.FC<{}> = () => {
   const [current] = React.useContext(AppMachineContext);
+  const [updateAvailable, setUpdateAvailable] = React.useState(false);
+
+  React.useEffect(() => {
+    isUpdateAvailable.then(isAvailable => {
+      setUpdateAvailable(isAvailable);
+    });
+  }, []);
+
+  const refresh = (): void => {
+    window.location.reload();
+  };
 
   return (
     <Container data-testid="App">
@@ -43,6 +65,10 @@ const App: React.FC<{}> = () => {
           <AnnouncementConfig key={config.id} config={config} />
         ))}
       </Announcements>
+
+      {updateAvailable && (
+        <Refresh onClick={refresh}>Refresh for update</Refresh>
+      )}
     </Container>
   );
 };
