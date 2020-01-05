@@ -1,5 +1,5 @@
-var CACHE_NAME = "workout-timer";
-var urlsToCache = ["/", "/completed"];
+var CACHE_NAME = "workout-timer:1.0.4";
+var urlsToCache = ["/"];
 
 // Install a service worker
 self.addEventListener("install", event => {
