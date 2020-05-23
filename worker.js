@@ -1,4 +1,4 @@
-var CACHE_NAME = "workout-timer:1.0.5";
+var CACHE_NAME = "workout-timer:1.0.6";
 var urlsToCache = ["/"];
 
 // Install a service worker
@@ -38,4 +38,10 @@ self.addEventListener("activate", event => {
       );
     })
   );
+});
+
+self.addEventListener("message", event => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
