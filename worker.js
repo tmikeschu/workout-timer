@@ -1,4 +1,4 @@
-var CACHE_NAME = "workout-timer:1.0.4";
+var CACHE_NAME = "workout-timer:1.0.5";
 var urlsToCache = ["/"];
 
 // Install a service worker
@@ -6,7 +6,6 @@ self.addEventListener("install", event => {
   // Perform install steps
   event.waitUntil(
     caches.open(CACHE_NAME).then(function(cache) {
-      console.log("Opened cache");
       return cache.addAll(urlsToCache);
     })
   );
