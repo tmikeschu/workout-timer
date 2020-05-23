@@ -36,8 +36,6 @@ const Announcements = styled.div`
 const Refresh = styled(Button)`
   position: absolute;
   bottom: 1rem;
-  left: 0;
-  right: 0;
   background-color: ${({ theme }): string => theme.success};
 `;
 
@@ -53,14 +51,8 @@ const App: React.FC<{}> = () => {
   const [updateAvailable, setUpdateAvailable] = React.useState(false);
 
   React.useEffect(() => {
-    isUpdateAvailable.then(isAvailable => {
-      setUpdateAvailable(isAvailable);
-    });
+    isUpdateAvailable.then(setUpdateAvailable);
   }, []);
-
-  const refresh = (): void => {
-    window.location.reload();
-  };
 
   return (
     <Container data-testid="App">
@@ -72,9 +64,13 @@ const App: React.FC<{}> = () => {
         ))}
       </Announcements>
 
-      {updateAvailable && (
-        <Refresh onClick={refresh}>Refresh for update</Refresh>
-      )}
+      <Refresh
+        id="updateVersionButton"
+        onClick={(): void => window.location.reload()}
+        hidden={!updateAvailable}
+      >
+        Refresh for update
+      </Refresh>
       <Version>Version: {version}</Version>
     </Container>
   );
