@@ -6,6 +6,7 @@ import AnnouncementConfig from "molecules/AnnouncementConfig";
 import { AppMachineContext } from "contexts/machine";
 import Button from "atoms/Button";
 import { version } from "../package.json";
+import * as serviceWorker from "./serviceWorker";
 
 const Container = styled.div`
   background-color: ${({ theme }): string => theme.background};
@@ -44,15 +45,28 @@ const Version = styled.p`
   text-align: center;
 `;
 
-declare let isUpdateAvailable: Promise<boolean>;
-
 const App: React.FC<{}> = () => {
   const [current] = React.useContext(AppMachineContext);
   const [updateAvailable, setUpdateAvailable] = React.useState(false);
+  const [
+    waitingWorker,
+    setWaitingWorker
+  ] = React.useState<ServiceWorker | null>(null);
+
+  const onSWUpdate = (registration: ServiceWorkerRegistration): void => {
+    setUpdateAvailable(true);
+    setWaitingWorker(registration.waiting);
+  };
 
   React.useEffect(() => {
-    isUpdateAvailable.then(setUpdateAvailable);
+    serviceWorker.register({ onUpdate: onSWUpdate });
   }, []);
+
+  const reload = (): void => {
+    waitingWorker?.postMessage({ type: "SKIP_WAITING" });
+    setUpdateAvailable(false);
+    window.location.reload(true);
+  };
 
   return (
     <Container data-testid="App">
@@ -66,7 +80,7 @@ const App: React.FC<{}> = () => {
 
       <Refresh
         id="updateVersionButton"
-        onClick={(): void => window.location.reload()}
+        onClick={reload}
         hidden={!updateAvailable}
       >
         Refresh for update
