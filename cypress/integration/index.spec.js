@@ -25,14 +25,13 @@ describe("Workout Timer", () => {
           expect(ls.getItem("defaultTime")).to.be.null;
         })
         .get('[data-testid="Header__hours"]')
-        .should("have.value", "00")
+        .should("have.value", "0")
         .get('[data-testid="Header__minutes"]')
-        .should("have.value", "06")
+        .should("have.value", "6")
         .get('[data-testid="Header__seconds"]')
-        .should("have.value", "00")
+        .should("have.value", "0")
         .get('[data-testid="Header__minutes"]')
-        .type("{end}{backspace}")
-        .type("05")
+        .select("05")
         .should(() => {
           expect(localStorage.getItem("defaultTime")).to.eq("300000");
         });
