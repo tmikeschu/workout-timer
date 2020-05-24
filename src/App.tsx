@@ -3,7 +3,7 @@ import { styled } from "./theme";
 import Header from "organisms/Header";
 import Actions from "organisms/Actions";
 import AnnouncementConfig from "molecules/AnnouncementConfig";
-import { AppMachineContext } from "contexts/machine";
+import { useAppMachine } from "contexts/machine";
 import Button from "atoms/Button";
 import { version } from "../package.json";
 import * as serviceWorker from "./serviceWorker";
@@ -45,12 +45,12 @@ const Version = styled.p`
   text-align: center;
 `;
 
-const App: React.FC<{}> = () => {
-  const [current] = React.useContext(AppMachineContext);
+const App: React.FC = () => {
+  const [current] = useAppMachine();
   const [updateAvailable, setUpdateAvailable] = React.useState(false);
   const [
     waitingWorker,
-    setWaitingWorker
+    setWaitingWorker,
   ] = React.useState<ServiceWorker | null>(null);
 
   const onSWUpdate = (registration: ServiceWorkerRegistration): void => {
@@ -73,7 +73,7 @@ const App: React.FC<{}> = () => {
       <Header />
       <Actions />
       <Announcements>
-        {current.context.announcementTimes.map(config => (
+        {current.context.announcementTimes.map((config) => (
           <AnnouncementConfig key={config.id} config={config} />
         ))}
       </Announcements>

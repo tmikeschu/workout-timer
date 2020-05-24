@@ -1,4 +1,5 @@
 import * as React from "react";
+import NoSleep from "nosleep.js";
 import { render } from "react-dom";
 import { ThemeProvider } from "./theme";
 import App from "./App";
@@ -7,7 +8,28 @@ import { AppMachineProvider } from "contexts/machine";
 const rootElement = document.getElementById("root");
 render(
   <ThemeProvider>
-    <AppMachineProvider>
+    <AppMachineProvider
+      config={{
+        services: {
+          noSleep: () => (): (() => void) => {
+            const noSleep = new NoSleep();
+
+            document.addEventListener(
+              "click",
+              function enableNoSleep() {
+                document.removeEventListener("click", enableNoSleep, false);
+                noSleep.enable();
+              },
+              false
+            );
+
+            return (): void => {
+              noSleep.disable();
+            };
+          },
+        },
+      }}
+    >
       <App />
     </AppMachineProvider>
   </ThemeProvider>,

@@ -3,16 +3,17 @@ import {
   MachineOptions,
   assign,
   Machine,
-  forwardTo,
-  send
+  InvokeCallback,
+  spawn,
 } from "xstate";
-import { minsToMS, secsToMS } from "utils";
+import { minsToMS, secsToMS, speakableTime } from "utils";
 import {
   AppMachineEvent as Event,
   AppMachineSchema as Schema,
   AppMachineContext as Context,
-  LocalStorageKeys
+  LocalStorageKeys,
 } from "types";
+import AnnouncementMachine from "./announcement";
 
 const defaultTime = Number(
   localStorage.getItem(LocalStorageKeys.DEFAULT_TIME) || minsToMS(6)
@@ -24,93 +25,115 @@ export const machineConfig: MachineConfig<Context, Schema, Event> = {
   context: {
     initialTime: defaultTime,
     currentTime: defaultTime,
-    announcementTimes: []
+    announcementTimes: [],
+    announcementActor: null,
+    startedAt: 0,
   },
-  invoke: [
-    { src: "announcer", id: "announcer" },
-    { src: "noSleep", id: "noSleep" }
-  ],
+  invoke: [{ src: "noSleep", id: "noSleep" }],
   states: {
     idle: {
       on: {
         START: "running",
         RESET: {
-          actions: ["reset"]
+          actions: ["reset"],
         },
         SET_TIME: {
-          actions: ["setTime", "storeTime"]
+          actions: ["setTime", "storeTime"],
         },
         SET_ANNOUNCEMENT_TIMES: {
           internal: false,
-          actions: ["setAnnouncements"]
-        }
-      }
+          actions: ["setAnnouncements"],
+        },
+      },
     },
     running: {
       entry: ["announceStart"],
-      invoke: [
-        { src: "timer", id: "timer" },
-        { src: "plantAnnouncements", id: "plantAnnouncements" }
-      ],
+      invoke: [{ src: "timer", id: "timer" }],
       on: {
         "": {
           target: "complete",
-          cond: ({ currentTime }): boolean => currentTime <= 0
+          cond: ({ currentTime }): boolean => currentTime <= 0,
         },
         STOP: "idle",
         COUNT_DOWN: {
-          actions: ["countDown"]
+          actions: ["countDown"],
         },
-        ANNOUNCE: {
-          actions: forwardTo("announcer")
-        }
-      }
+      },
     },
     complete: {
       entry: ["announceEnd"],
-      on: {
-        ANNOUNCE: {
-          actions: forwardTo("announcer")
-        }
-      },
       after: {
-        500: "idle"
-      }
-    }
-  }
+        500: "idle",
+      },
+    },
+  },
 };
 
 export const machineOptions: Partial<MachineOptions<Context, Event>> = {
   actions: {
-    // define "storeTime" in AppMachineProvider
+    storeTime: (): void => {
+      // define "storeTime" in AppMachineProvider
+    },
     setAnnouncements: assign<Context, Event>({
       announcementTimes: (context, event) => {
         if (event.type === "SET_ANNOUNCEMENT_TIMES") {
           return event.payload.announcementTimes;
         }
         return context.announcementTimes;
-      }
+      },
     }),
     setTime: assign<Context, Event>({
       initialTime: (context, event) =>
         event.type === "SET_TIME" ? event.payload.time : context.initialTime,
       currentTime: (context, event) =>
-        event.type === "SET_TIME" ? event.payload.time : context.currentTime
+        event.type === "SET_TIME" ? event.payload.time : context.currentTime,
     }),
     countDown: assign<Context, Event>({
-      currentTime: context => context.currentTime - secsToMS(1)
+      currentTime: (context) => context.currentTime - secsToMS(1),
+      announcementActor: (context) =>
+        context.announcementTimes
+          .filter((announcement) => {
+            // plus a second so the announcement happens right at the time shift
+            const timeDiff = context.initialTime - context.currentTime + 1000;
+            return context.initialTime > context.currentTime &&
+              announcement.interval
+              ? timeDiff % secsToMS(announcement.time) === 0
+              : timeDiff === secsToMS(announcement.time);
+          })
+          .slice(0, 1)
+          .map((announcement) => {
+            return spawn(
+              AnnouncementMachine.withContext({
+                message: [
+                  speakableTime(context.currentTime - 1000),
+                  announcement.message,
+                ]
+                  .filter(Boolean)
+                  .join(". ")
+                  .concat(".")
+                  .replace(/\.\./, "."),
+              }),
+              announcement.id
+            );
+          })[0] || null,
     }),
     reset: assign<Context, Event>({
-      currentTime: context => context.initialTime
+      currentTime: (context) => context.initialTime,
     }),
-    announceStart: send<Context, Event>({
-      type: "ANNOUNCE",
-      payload: { message: "Let's go" }
+    announceStart: assign<Context, Event>({
+      announcementActor: () =>
+        spawn(
+          AnnouncementMachine.withContext({ message: "Let's go" }),
+          "letsgo"
+        ),
     }),
-    announceEnd: send<Context, Event>({
-      type: "ANNOUNCE",
-      payload: { message: "Time. Great job!" }
-    })
+    announceEnd: assign<Context, Event>({
+      announcementActor: () =>
+        spawn(
+          AnnouncementMachine.withContext({ message: "Time. Great job!" }),
+          "end"
+        ),
+    }),
   },
   services: {
     noSleep: () => (): (() => void) => {
@@ -118,21 +141,18 @@ export const machineOptions: Partial<MachineOptions<Context, Event>> = {
         // define "noSleep" in AppMachineProvider
       };
     },
-    announcer: () => (): (() => void) => {
-      return (): void => {
-        // define "announcer" in AppMachineProvider
-      };
+    plantAnnouncements: () => (): void => {
+      // define "plantAnnouncements" in AppMachineProvider
     },
-    // define "plantAnnouncements" in AppMachineProvider
-    timer: () => (cb): (() => void) => {
+    timer: () => (cb: Parameters<InvokeCallback>[0]): (() => void) => {
       const interval = setInterval(() => {
         cb("COUNT_DOWN");
       }, secsToMS(1));
       return (): void => {
         clearInterval(interval);
       };
-    }
-  }
+    },
+  },
 };
 
 export default Machine(machineConfig, machineOptions);

@@ -3,11 +3,11 @@
 exports[`snapshot is correct 1`] = `
 <div>
   <div
-    class="css-1rhn9fe"
+    class="css-splcz4"
     data-testid="AnnouncementConfig"
   >
     <div
-      class="css-ubc3e7"
+      class="css-3jx7h7"
     >
       <label
         for="seconds:aoeu1234"
@@ -15,7 +15,7 @@ exports[`snapshot is correct 1`] = `
         Seconds
       </label>
       <select
-        class="css-1pfapa5"
+        class="css-1sm68i9"
         data-testid="AnnouncementConfig__time"
         type="number"
       >
@@ -322,7 +322,7 @@ exports[`snapshot is correct 1`] = `
       </select>
     </div>
     <div
-      class="css-ubc3e7"
+      class="css-3jx7h7"
     >
       <label
         for="message:aoeu1234"

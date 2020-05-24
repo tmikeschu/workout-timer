@@ -6,24 +6,24 @@ exports[`Actions renders correctly 1`] = `
     class="css-vcirm2"
   >
     <button
-      class="css-twz5y6"
+      class="css-i71c7p"
     >
       Start
     </button>
     <button
-      class="css-twz5y6"
+      class="css-i71c7p"
       disabled=""
     >
       Stop
     </button>
     <button
-      class="css-twz5y6"
+      class="css-i71c7p"
       disabled=""
     >
       Reset
     </button>
     <button
-      class="css-twz5y6"
+      class="css-i71c7p"
       data-testid="Actions__addAnnouncement"
     >
       Add Announcement

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled } from "theme";
 import Button from "atoms/Button";
-import { AppMachineContext } from "contexts/machine";
+import { useAppMachine } from "contexts/machine";
 import { createUUID } from "utils";
 
 const Container = styled.div`
@@ -11,14 +11,14 @@ const Container = styled.div`
   justify-content: space-between;
 `;
 
-const Actions: React.FC<{}> = () => {
-  const [current, send] = React.useContext(AppMachineContext);
+const Actions: React.FC = () => {
+  const [current, send] = useAppMachine();
   const addAnnouncement = (): void => {
     const draft = [...current.context.announcementTimes];
     draft.push({ time: 0, interval: false, id: createUUID() });
     send({
       type: "SET_ANNOUNCEMENT_TIMES",
-      payload: { announcementTimes: draft }
+      payload: { announcementTimes: draft },
     });
   };
   const fresh = current.context.initialTime === current.context.currentTime;

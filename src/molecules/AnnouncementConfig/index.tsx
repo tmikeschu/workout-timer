@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled } from "theme";
 import { IAnnouncementConfig } from "types";
-import { AppMachineContext } from "contexts/machine";
+import { useAppMachine } from "contexts/machine";
 import NumberInput from "atoms/NumberInput";
 
 const Container = styled.div`
@@ -75,7 +75,8 @@ interface Props {
 }
 
 const AnnouncementConfig: React.FC<Props> = ({ config }) => {
-  const [current, send] = React.useContext(AppMachineContext);
+  const machine = useAppMachine();
+  const [current, send] = machine;
 
   const changeNotifications = (id: string) => (
     e: React.ChangeEvent<HTMLInputElement>

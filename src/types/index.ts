@@ -1,3 +1,5 @@
+import { Actor } from "xstate";
+
 export type IAnnouncementConfig = {
   id: string;
   time: number;
@@ -5,6 +7,7 @@ export type IAnnouncementConfig = {
   message?: string;
 };
 
+/* eslint-disable @typescript-eslint/ban-types */
 export type AppMachineSchema = {
   states: {
     idle: {};
@@ -12,6 +15,7 @@ export type AppMachineSchema = {
     complete: {};
   };
 };
+/* eslint-enable @typescript-eslint/ban-types */
 
 export type StartEvent = {
   type: "START";
@@ -45,8 +49,10 @@ export type AppMachineContext = {
   initialTime: number;
   currentTime: number;
   announcementTimes: IAnnouncementConfig[];
+  announcementActor: Actor | null;
+  startedAt: number;
 };
 
 export enum LocalStorageKeys {
-  DEFAULT_TIME = "defaultTime"
+  DEFAULT_TIME = "defaultTime",
 }

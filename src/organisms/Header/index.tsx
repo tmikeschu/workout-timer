@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled, ThemeSwitch } from "theme";
 import { toHoursMinutesSeconds, fromHoursMinutesSeconds } from "utils";
-import { AppMachineContext } from "contexts/machine";
+import { useAppMachine } from "contexts/machine";
 import NumberInput from "atoms/NumberInput";
 
 const Container = styled.div`
@@ -29,8 +29,8 @@ const Time = styled.div`
   }
 `;
 
-const Header: React.FC<{}> = () => {
-  const [current, send] = React.useContext(AppMachineContext);
+const Header: React.FC = () => {
+  const [current, send] = useAppMachine();
 
   const hms = toHoursMinutesSeconds(current.context.currentTime);
 
