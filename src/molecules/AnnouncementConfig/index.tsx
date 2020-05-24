@@ -60,7 +60,8 @@ const TextInput = styled.div`
     padding: 0 0.25rem;
   }
 
-  input {
+  input,
+  select {
     width: 100%;
     background-color: ${({ theme }): string => theme.background};
     color: ${({ theme }): string => theme.body};
@@ -97,10 +98,6 @@ const AnnouncementConfig: React.FC<Props> = ({ config }) => {
           draft[i].interval = e.target.checked;
           break;
         }
-        case "number": {
-          draft[i].time = Number(e.target.value);
-          break;
-        }
         case "text": {
           draft[i].message = e.target.value;
           break;
@@ -113,6 +110,18 @@ const AnnouncementConfig: React.FC<Props> = ({ config }) => {
     }
   };
 
+  const selectNumber = (id: string) => (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ): void => {
+    const draft = [...current.context.announcementTimes];
+    const i = draft.findIndex(config => id === config.id);
+    draft[i].time = Number(e.target.value);
+    send({
+      type: "SET_ANNOUNCEMENT_TIMES",
+      payload: { announcementTimes: draft }
+    });
+  };
+
   return (
     <Container data-testid="AnnouncementConfig">
       <TextInput>
@@ -121,7 +130,8 @@ const AnnouncementConfig: React.FC<Props> = ({ config }) => {
           data-testid="AnnouncementConfig__time"
           disabled={current.matches("running")}
           value={config.time}
-          onChange={changeNotifications(config.id)}
+          onChange={selectNumber(config.id)}
+          range={[1, 60]}
         />
       </TextInput>
 

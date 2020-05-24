@@ -1,11 +1,10 @@
 import * as React from "react";
 import { styled } from "theme";
 
-const Container = styled.input`
+const Container = styled.select`
   border: none;
   background: transparent;
   color: ${({ theme }): string => theme.body};
-  font-size: 4rem;
   /* Chrome, Safari, Edge, Opera */
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
@@ -19,8 +18,22 @@ const Container = styled.input`
   }
 `;
 
-const NumberInput: React.FC<React.HTMLProps<HTMLInputElement>> = props => {
-  return <Container type="number" {...props} />;
+const NumberInput: React.FC<React.HTMLProps<HTMLSelectElement> & {
+  range?: [number, number];
+  display?: (n: number) => string;
+}> = ({ range = [1, 10], display = String, ...props }) => {
+  const [start, stop] = range;
+  return (
+    <Container type="number" {...props}>
+      {Array(stop - start + 1)
+        .fill(null)
+        .map((_, i) => (
+          <option value={i + start} key={i + start}>
+            {display(i + start)}
+          </option>
+        ))}
+    </Container>
+  );
 };
 
 export default NumberInput;
