@@ -22,5 +22,8 @@
     "prettier",
     "prettier/react",
     "prettier/@typescript-eslint"
-  ]
+  ],
+  "rules": {
+    "react/prop-types": "off"
+  }
 }

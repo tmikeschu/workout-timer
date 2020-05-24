@@ -1,5 +1,4 @@
 import * as React from "react";
-import PropTypes, { InferProps } from "prop-types";
 import { styled } from "theme";
 import { IAnnouncementConfig } from "types";
 import { AppMachineContext } from "contexts/machine";
@@ -71,16 +70,7 @@ const TextInput = styled.div`
   }
 `;
 
-const propTypes = {
-  config: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    time: PropTypes.number.isRequired,
-    message: PropTypes.string,
-    interval: PropTypes.bool.isRequired
-  }).isRequired
-};
-
-interface Props extends InferProps<typeof propTypes> {
+interface Props {
   config: IAnnouncementConfig;
 }
 
@@ -91,7 +81,7 @@ const AnnouncementConfig: React.FC<Props> = ({ config }) => {
     e: React.ChangeEvent<HTMLInputElement>
   ): void => {
     const draft = [...current.context.announcementTimes];
-    const i = draft.findIndex(config => id === config.id);
+    const i = draft.findIndex((config) => id === config.id);
     if (i != null) {
       switch (e.target.type as "checkbox" | "number" | "text") {
         case "checkbox": {
@@ -105,7 +95,7 @@ const AnnouncementConfig: React.FC<Props> = ({ config }) => {
       }
       send({
         type: "SET_ANNOUNCEMENT_TIMES",
-        payload: { announcementTimes: draft }
+        payload: { announcementTimes: draft },
       });
     }
   };
@@ -114,11 +104,11 @@ const AnnouncementConfig: React.FC<Props> = ({ config }) => {
     e: React.ChangeEvent<HTMLSelectElement>
   ): void => {
     const draft = [...current.context.announcementTimes];
-    const i = draft.findIndex(config => id === config.id);
+    const i = draft.findIndex((config) => id === config.id);
     draft[i].time = Number(e.target.value);
     send({
       type: "SET_ANNOUNCEMENT_TIMES",
-      payload: { announcementTimes: draft }
+      payload: { announcementTimes: draft },
     });
   };
 
@@ -162,7 +152,5 @@ const AnnouncementConfig: React.FC<Props> = ({ config }) => {
     </Container>
   );
 };
-
-AnnouncementConfig.propTypes = propTypes;
 
 export default AnnouncementConfig;
