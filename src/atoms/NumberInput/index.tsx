@@ -11,6 +11,7 @@ const Container = styled.select`
     -webkit-appearance: none;
     margin: 0;
   }
+  -webkit-appearance: none;
 
   /* Firefox */
   &[type="number"] {
@@ -18,10 +19,12 @@ const Container = styled.select`
   }
 `;
 
-const NumberInput: React.FC<React.HTMLProps<HTMLSelectElement> & {
-  range?: [number, number];
-  display?: (n: number) => string;
-}> = ({ range = [1, 10], display = String, ...props }) => {
+const NumberInput: React.FC<
+  React.HTMLProps<HTMLSelectElement> & {
+    range?: [number, number];
+    display?: (n: number) => string;
+  }
+> = ({ range = [1, 10], display = String, ...props }) => {
   const [start, stop] = range;
   return (
     <Container type="number" {...props}>

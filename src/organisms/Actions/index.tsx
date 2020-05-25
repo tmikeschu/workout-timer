@@ -35,10 +35,29 @@ const ShowMore = styled.div`
   margin: 1rem auto;
 `;
 
+const SaveConfig = styled.div`
+  margin-top: 1rem;
+
+  > button {
+    width: calc(50% - 0.5rem);
+    margin-right: 1rem;
+    margin-top: 1rem;
+
+    &:last-of-type {
+      margin-right: 0rem;
+      background-color: ${({ theme }) => theme.primaryAlt};
+      color: ${({ theme }) => theme.background};
+    }
+  }
+`;
+
 const Actions: React.FC = () => {
   const [current, send] = useAppMachine();
   const [configName, setConfigName] = React.useState("");
   const [showSaveConfig, setShowSaveConfig] = React.useState(false);
+  const [showLoadConfig, setShowLoadConfig] = React.useState(false);
+  const [showMore, setShowMore] = React.useState(false);
+
   const addAnnouncement = (): void => {
     const draft = [...current.context.announcementTimes];
     draft.push({ time: 0, interval: false, id: createUUID() });
@@ -58,9 +77,6 @@ const Actions: React.FC = () => {
     localStorage.setItem("timerConfigs", config);
     setShowSaveConfig(false);
   };
-
-  const [showLoadConfig, setShowLoadConfig] = React.useState(false);
-  const [showMore, setShowMore] = React.useState(false);
 
   return (
     <Container>
@@ -165,18 +181,16 @@ const Actions: React.FC = () => {
           ) : null}
 
           {showSaveConfig ? (
-            <>
+            <SaveConfig>
               <TextInput value={configName} onChange={etv(setConfigName)} />
-              <div>
-                <Button
-                  onClick={saveAnnouncements}
-                  disabled={current.context.announcementTimes.length === 0}
-                >
-                  Save
-                </Button>
-                <Button onClick={() => setShowSaveConfig(false)}>Cancel</Button>
-              </div>
-            </>
+              <Button
+                onClick={saveAnnouncements}
+                disabled={current.context.announcementTimes.length === 0}
+              >
+                Save
+              </Button>
+              <Button onClick={() => setShowSaveConfig(false)}>Cancel</Button>
+            </SaveConfig>
           ) : null}
         </div>
       ) : null}
