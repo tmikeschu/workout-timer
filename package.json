@@ -73,13 +73,13 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && yarn tsc"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
     "*.{ts,tsx}": [
       "eslint --fix --max-warnings 0",
-      "yarn run test:staged"
+      "prettier --write"
     ]
   }
 }
