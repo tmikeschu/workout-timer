@@ -68,13 +68,13 @@ const Actions: React.FC = () => {
         disabled={current.matches("running")}
         onClick={() => send("START")}
       >
-        Start
+        {fresh ? "Start" : "Resume"}
       </Button>
       <Button
         disabled={!current.matches("running")}
         onClick={() => send("STOP")}
       >
-        Stop
+        Pause
       </Button>
 
       <Button

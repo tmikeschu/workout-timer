@@ -14,7 +14,7 @@ exports[`Actions renders correctly 1`] = `
       class="css-i71c7p"
       disabled=""
     >
-      Stop
+      Pause
     </button>
     <button
       class="css-i71c7p"
@@ -47,7 +47,7 @@ exports[`Actions shows announcement buttons 1`] = `
       class="css-i71c7p"
       disabled=""
     >
-      Stop
+      Pause
     </button>
     <button
       class="css-i71c7p"
