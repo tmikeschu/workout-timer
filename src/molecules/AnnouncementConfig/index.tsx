@@ -122,7 +122,7 @@ const AnnouncementConfig: React.FC<Props> = ({ config }) => {
           disabled={current.matches("running")}
           value={config.time}
           onChange={selectNumber(config.id)}
-          range={[1, 60]}
+          range={[1, 600]}
         />
       </TextInput>
 
