@@ -76,6 +76,7 @@ export const machineOptions: Partial<MachineOptions<Context, Event>> = {
     storeTime: (): void => {
       // define "storeTime" in AppMachineProvider
     },
+
     setAnnouncements: assign<Context, Event>({
       announcementTimes: (context, event) => {
         if (event.type === "SET_ANNOUNCEMENT_TIMES") {
@@ -84,12 +85,14 @@ export const machineOptions: Partial<MachineOptions<Context, Event>> = {
         return context.announcementTimes;
       },
     }),
+
     setTime: assign<Context, Event>({
       initialTime: (context, event) =>
         event.type === "SET_TIME" ? event.payload.time : context.initialTime,
       currentTime: (context, event) =>
         event.type === "SET_TIME" ? event.payload.time : context.currentTime,
     }),
+
     countDown: assign<Context, Event>({
       currentTime: (context) => context.currentTime - secsToMS(1),
       announcementActor: (context) =>
@@ -114,16 +117,21 @@ export const machineOptions: Partial<MachineOptions<Context, Event>> = {
             );
           })[0] || null,
     }),
+
     reset: assign<Context, Event>({
       currentTime: (context) => context.initialTime,
     }),
+
     announceStart: assign<Context, Event>({
-      announcementActor: () =>
-        spawn(
-          AnnouncementMachine.withContext({ message: "Let's go" }),
-          "letsgo"
-        ),
+      announcementActor: (context) =>
+        context.currentTime === context.initialTime
+          ? spawn(
+              AnnouncementMachine.withContext({ message: "Let's go" }),
+              "letsgo"
+            )
+          : null,
     }),
+
     announceEnd: assign<Context, Event>({
       announcementActor: () =>
         spawn(
