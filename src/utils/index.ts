@@ -1,4 +1,5 @@
 import * as R from "ramda";
+import * as React from "react";
 
 const MILLISECONDS_IN_SECOND = 1000;
 const SECONDS_IN_MINUTE = 60;
@@ -24,7 +25,7 @@ export const padStart = R.curry(
 export const toHoursMinutesSeconds = R.juxt([
   R.pipe(msToHours, R.modulo(R.__, HOURS_IN_DAY), Math.floor),
   R.pipe(msToMinutes, R.modulo(R.__, MINUTES_IN_HOUR), Math.floor),
-  R.pipe(msToSecs, R.modulo(R.__, SECONDS_IN_MINUTE), Math.floor)
+  R.pipe(msToSecs, R.modulo(R.__, SECONDS_IN_MINUTE), Math.floor),
 ]);
 
 function call<T, U>(fn: (t: T) => U, t: T): U {
@@ -35,7 +36,7 @@ export const fromHoursMinutesSeconds = R.pipe(
   R.zipWith<(n: number) => number, number, number>(call, [
     hoursToMS,
     minsToMS,
-    secsToMS
+    secsToMS,
   ]),
   R.sum
 );
@@ -52,7 +53,7 @@ export const speakableTime = R.pipe(
   ),
   R.filter(Boolean),
   R.join(". "),
-  s => s.concat(".")
+  (s) => s.concat(".")
 );
 
 export const formatTime = R.pipe(
@@ -63,12 +64,21 @@ export const formatTime = R.pipe(
 
 export function createUUID(): string {
   let dt = new Date().getTime();
-  const uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(
-    c
-  ) {
-    const r = (dt + Math.random() * 16) % 16 | 0;
-    dt = Math.floor(dt / 16);
-    return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
-  });
+  const uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+    /[xy]/g,
+    function (c) {
+      const r = (dt + Math.random() * 16) % 16 | 0;
+      dt = Math.floor(dt / 16);
+      return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+    }
+  );
   return uuid;
+}
+
+export function etv(
+  fn: (s: string) => void
+): (e: React.ChangeEvent<HTMLInputElement>) => void {
+  return (e: React.ChangeEvent<HTMLInputElement>): void => {
+    return fn(e.target.value);
+  };
 }

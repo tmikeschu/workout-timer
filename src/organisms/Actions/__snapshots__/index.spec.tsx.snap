@@ -22,12 +22,72 @@ exports[`Actions renders correctly 1`] = `
     >
       Reset
     </button>
+    <div
+      class="css-1l6nss"
+      data-testid="show-more"
+      role="button"
+    >
+      More
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Actions shows announcement buttons 1`] = `
+<div>
+  <div
+    class="css-vcirm2"
+  >
     <button
       class="css-i71c7p"
-      data-testid="Actions__addAnnouncement"
     >
-      Add Announcement
+      Start
     </button>
+    <button
+      class="css-i71c7p"
+      disabled=""
+    >
+      Stop
+    </button>
+    <button
+      class="css-i71c7p"
+      disabled=""
+    >
+      Reset
+    </button>
+    <div
+      class="css-1l6nss"
+      data-testid="show-more"
+      role="button"
+    >
+      Hide
+    </div>
+    <div>
+      <button
+        class="css-i71c7p"
+        data-testid="Actions__addAnnouncement"
+      >
+        Add announcement
+      </button>
+      <button
+        class="css-i71c7p"
+        disabled=""
+      >
+        Save announcements
+      </button>
+      <button
+        class="css-i71c7p"
+        disabled=""
+      >
+        Load announcements
+      </button>
+      <button
+        class="css-i71c7p"
+        disabled=""
+      >
+        Clear announcements
+      </button>
+    </div>
   </div>
 </div>
 `;

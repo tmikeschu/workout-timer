@@ -1,9 +1,9 @@
 describe("Workout Timer", () => {
-  before(async function() {
+  before(async function () {
     // run this once before all code
-    return window.caches.keys().then(function(cacheNames) {
+    return window.caches.keys().then(function (cacheNames) {
       return Promise.all(
-        cacheNames.map(function(cacheName) {
+        cacheNames.map(function (cacheName) {
           return window.caches.delete(cacheName);
         })
       );
@@ -21,7 +21,7 @@ describe("Workout Timer", () => {
   describe("As a user", () => {
     it("I can change the default time", () => {
       cy.clearLocalStorage()
-        .should(ls => {
+        .should((ls) => {
           expect(ls.getItem("defaultTime")).to.be.null;
         })
         .get('[data-testid="Header__hours"]')
@@ -38,7 +38,9 @@ describe("Workout Timer", () => {
     });
 
     it("I can add an announcement", () => {
-      cy.get('[data-testid="Actions__addAnnouncement"]')
+      cy.get("[data-testid=show-more]")
+        .click()
+        .get('[data-testid="Actions__addAnnouncement"]')
         .click()
         .get('[data-testid="AnnouncementConfig__time"]')
         .type("{end}")

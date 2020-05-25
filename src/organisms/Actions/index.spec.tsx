@@ -7,4 +7,11 @@ describe("Actions", () => {
     const tree = render(<Actions />).container;
     expect(tree).toMatchSnapshot();
   });
+
+  it("shows announcement buttons", () => {
+    const tree = render(<Actions />);
+    tree.getByTestId("show-more").click();
+
+    expect(tree.container).toMatchSnapshot();
+  });
 });
