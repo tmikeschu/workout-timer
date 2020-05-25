@@ -1,12 +1,15 @@
 import * as React from "react";
-import { styled } from "./theme";
-import Header from "organisms/Header";
-import Actions from "organisms/Actions";
-import AnnouncementConfig from "molecules/AnnouncementConfig";
-import { useAppMachine } from "contexts/machine";
+
 import Button from "atoms/Button";
+import { useAppMachine } from "contexts/machine";
+import AnnouncementConfig from "molecules/AnnouncementConfig";
+import Actions from "organisms/Actions";
+import Header from "organisms/Header";
+
 import { version } from "../package.json";
+
 import * as serviceWorker from "./serviceWorker";
+import { styled } from "./theme";
 
 const Container = styled.div`
   background-color: ${({ theme }): string => theme.background};
