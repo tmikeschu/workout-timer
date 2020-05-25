@@ -16,6 +16,7 @@ const Container = styled.div`
   width: 100vw;
   max-width: 414px;
   margin: 0 auto;
+  padding-bottom: 1rem;
 
   &:after {
     width: 100vw;

@@ -3,7 +3,7 @@
 exports[`NumberInput renders correctly 1`] = `
 <div>
   <select
-    class="css-1pfapa5"
+    class="css-1pqkwsn"
     type="number"
   >
     <option

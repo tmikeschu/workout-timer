@@ -14,4 +14,26 @@ describe("Actions", () => {
 
     expect(tree.container).toMatchSnapshot();
   });
+
+  it("shows save options", () => {
+    localStorage.setItem(
+      "timerConfigs",
+      JSON.stringify({
+        nice: [
+          {
+            message: "hello",
+            id: "aoeu",
+            time: 1,
+            interval: false,
+          },
+        ],
+      })
+    );
+    const tree = render(<Actions />);
+    tree.getByTestId("show-more").click();
+    tree.getByTestId("add-announcement").click();
+    tree.getByTestId("save-announcements").click();
+
+    expect(tree.container).toMatchSnapshot();
+  });
 });

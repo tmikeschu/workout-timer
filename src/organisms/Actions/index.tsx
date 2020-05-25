@@ -24,24 +24,27 @@ const ConfigOptions = styled.ul`
     text-decoration: underline;
     cursor: pointer;
     margin: 1rem auto;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
   }
 `;
 
 const ShowMore = styled.div`
   font-size: 1rem;
-  color: ${({ theme }) => theme.primaryAlt};
+  color: ${({ theme }) => theme.body};
   text-decoration: underline;
   cursor: pointer;
   margin: 1rem auto;
 `;
 
 const SaveConfig = styled.div`
-  margin-top: 1rem;
-
   > button {
     width: calc(50% - 0.5rem);
     margin-right: 1rem;
     margin-top: 1rem;
+    background-color: ${({ theme }) => theme.success};
 
     &:last-of-type {
       margin-right: 0rem;
@@ -111,7 +114,7 @@ const Actions: React.FC = () => {
       {showMore ? (
         <div>
           <Button
-            data-testid="Actions__addAnnouncement"
+            data-testid="add-announcement"
             onClick={addAnnouncement}
             disabled={!fresh || current.matches("running")}
           >
@@ -121,9 +124,20 @@ const Actions: React.FC = () => {
           <Button
             onClick={() => setShowSaveConfig(true)}
             disabled={current.context.announcementTimes.length === 0}
+            data-testid="save-announcements"
           >
             Save announcements
           </Button>
+
+          {showSaveConfig ? (
+            <SaveConfig>
+              <TextInput value={configName} onChange={etv(setConfigName)} />
+              <Button onClick={saveAnnouncements} disabled={configName === ""}>
+                Save
+              </Button>
+              <Button onClick={() => setShowSaveConfig(false)}>Cancel</Button>
+            </SaveConfig>
+          ) : null}
 
           <Button
             onClick={() => setShowLoadConfig((b) => !b)}
@@ -178,19 +192,6 @@ const Actions: React.FC = () => {
                 </li>
               ))}
             </ConfigOptions>
-          ) : null}
-
-          {showSaveConfig ? (
-            <SaveConfig>
-              <TextInput value={configName} onChange={etv(setConfigName)} />
-              <Button
-                onClick={saveAnnouncements}
-                disabled={current.context.announcementTimes.length === 0}
-              >
-                Save
-              </Button>
-              <Button onClick={() => setShowSaveConfig(false)}>Cancel</Button>
-            </SaveConfig>
           ) : null}
         </div>
       ) : null}

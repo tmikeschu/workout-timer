@@ -26,7 +26,7 @@ exports[`snapshot is correct 1`] = `
       class="css-1ddwmy4"
     >
       <select
-        class="css-1sm68i9"
+        class="css-r1zkfr"
         data-testid="Header__hours"
         type="number"
       >
@@ -160,7 +160,7 @@ exports[`snapshot is correct 1`] = `
         :
       </span>
       <select
-        class="css-1sm68i9"
+        class="css-r1zkfr"
         data-testid="Header__minutes"
         type="number"
       >
@@ -469,7 +469,7 @@ exports[`snapshot is correct 1`] = `
         :
       </span>
       <select
-        class="css-1sm68i9"
+        class="css-r1zkfr"
         data-testid="Header__seconds"
         type="number"
       >

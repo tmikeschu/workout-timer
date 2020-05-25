@@ -13,7 +13,7 @@ const colors = {
   cerullean: "#3454D1",
   lightBlue: "#715AFF",
   darkBlue: "#0E0E52",
-  salmon: "#F49390"
+  salmon: "#F49390",
 };
 
 injectGlobal`
@@ -22,6 +22,7 @@ injectGlobal`
     margin: 0;
     font-family: 'Inconsolata', sans-serif;
     overflow-x: hidden;
+    background-color: #000;
   }
 
   * {
@@ -41,11 +42,13 @@ export type Theme = CommonTheme & {
   body: string;
   primary: string;
   primaryAlt: string;
+  secondary: string;
+  secondaryAlt: string;
 };
 
 const commonTheme: CommonTheme = {
   error: colors.red,
-  success: colors.green
+  success: colors.green,
 };
 
 const themeLight: Theme = {
@@ -53,7 +56,9 @@ const themeLight: Theme = {
   background: colors.gray,
   body: colors.black,
   primary: colors.salmon,
-  primaryAlt: colors.white
+  primaryAlt: colors.white,
+  secondary: colors.lightBlue,
+  secondaryAlt: colors.white,
 };
 
 const themeDark: Theme = {
@@ -61,7 +66,9 @@ const themeDark: Theme = {
   background: colors.black,
   body: colors.white,
   primary: colors.cerullean,
-  primaryAlt: colors.white
+  primaryAlt: colors.white,
+  secondary: colors.salmon,
+  secondaryAlt: colors.white,
 };
 
 const theme = (mode: ThemeContext["mode"]): Theme =>
@@ -79,7 +86,7 @@ const defaultThemeContext: ThemeContext = {
       ? "dark"
       : "light",
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setTheme: () => {}
+  setTheme: () => {},
 };
 
 const ThemeContext = React.createContext(defaultThemeContext);
@@ -92,20 +99,20 @@ const useEffectDarkMode = (): [
 ] => {
   const state = React.useState<UseEffectDarkMode>({
     mode: defaultThemeContext.mode,
-    hasMounted: false
+    hasMounted: false,
   });
   const [, setThemeState] = state;
 
   React.useEffect(() => {
     const lsMode = (localStorage.getItem("mode") ||
       "dark") as ThemeContext["mode"];
-    setThemeState(state => ({ ...state, mode: lsMode, hasMounted: true }));
+    setThemeState((state) => ({ ...state, mode: lsMode, hasMounted: true }));
   }, [setThemeState]);
 
   return state;
 };
 
-export const ThemeProvider: React.FC<{}> = ({ children }) => {
+export const ThemeProvider: React.FC = ({ children }) => {
   const [themeState, setThemeState] = useEffectDarkMode();
   if (!themeState.hasMounted) {
     return <div />;
@@ -114,13 +121,13 @@ export const ThemeProvider: React.FC<{}> = ({ children }) => {
   const setTheme = (mode?: ThemeContext["mode"]): void => {
     const nextThemes = {
       light: "dark",
-      dark: "light"
+      dark: "light",
     };
     if (!mode) {
       mode = nextThemes[themeState.mode] as ThemeContext["mode"];
     }
     localStorage.setItem("mode", mode);
-    setThemeState(state => ({ ...state, mode } as UseEffectDarkMode));
+    setThemeState((state) => ({ ...state, mode } as UseEffectDarkMode));
   };
 
   return (
@@ -128,7 +135,7 @@ export const ThemeProvider: React.FC<{}> = ({ children }) => {
       <ThemeContext.Provider
         value={{
           mode: themeState.mode,
-          setTheme
+          setTheme,
         }}
       >
         {children}
@@ -147,7 +154,7 @@ const Button = styled.button`
   }
 `;
 
-export const ThemeSwitch: React.FC<{}> = () => {
+export const ThemeSwitch: React.FC = () => {
   const { mode, setTheme } = React.useContext(ThemeContext);
   return (
     <Button

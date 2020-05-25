@@ -15,7 +15,7 @@ exports[`snapshot is correct 1`] = `
         Seconds
       </label>
       <select
-        class="css-1sm68i9"
+        class="css-r1zkfr"
         data-testid="AnnouncementConfig__time"
         type="number"
       >

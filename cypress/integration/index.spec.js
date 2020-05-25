@@ -40,7 +40,7 @@ describe("Workout Timer", () => {
     it("I can add an announcement", () => {
       cy.get("[data-testid=show-more]")
         .click()
-        .get('[data-testid="Actions__addAnnouncement"]')
+        .get("[data-testid=add-announcement]")
         .click()
         .get('[data-testid="AnnouncementConfig__time"]')
         .type("{end}")
