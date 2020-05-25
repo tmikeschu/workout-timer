@@ -104,14 +104,9 @@ export const machineOptions: Partial<MachineOptions<Context, Event>> = {
           .map((announcement) => {
             return spawn(
               AnnouncementMachine.withContext({
-                message: [
+                message:
+                  announcement.message ||
                   speakableTime(context.currentTime - 1000),
-                  announcement.message,
-                ]
-                  .filter(Boolean)
-                  .join(". ")
-                  .concat(".")
-                  .replace(/\.\./, "."),
               }),
               announcement.id
             );
