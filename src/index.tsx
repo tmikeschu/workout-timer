@@ -6,22 +6,15 @@ import App from "./App";
 import { AppMachineProvider } from "contexts/machine";
 
 const rootElement = document.getElementById("root");
+const noSleep = new NoSleep();
+
 render(
   <ThemeProvider>
     <AppMachineProvider
       config={{
         services: {
           noSleep: () => (): (() => void) => {
-            const noSleep = new NoSleep();
-
-            document.addEventListener(
-              "click",
-              function enableNoSleep() {
-                document.removeEventListener("click", enableNoSleep, false);
-                noSleep.enable();
-              },
-              false
-            );
+            noSleep.enable();
 
             return (): void => {
               noSleep.disable();

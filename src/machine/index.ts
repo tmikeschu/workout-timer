@@ -29,7 +29,6 @@ export const machineConfig: MachineConfig<Context, Schema, Event> = {
     announcementActor: null,
     startedAt: 0,
   },
-  invoke: [{ src: "noSleep", id: "noSleep" }],
   states: {
     idle: {
       on: {
@@ -48,7 +47,10 @@ export const machineConfig: MachineConfig<Context, Schema, Event> = {
     },
     running: {
       entry: ["announceStart"],
-      invoke: [{ src: "timer", id: "timer" }],
+      invoke: [
+        { src: "timer", id: "timer" },
+        { src: "noSleep", id: "noSleep" },
+      ],
       on: {
         "": {
           target: "complete",
