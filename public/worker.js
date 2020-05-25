@@ -1,4 +1,4 @@
-var CACHE_NAME = "workout-timer:1.0.10";
+var CACHE_NAME = "workout-timer:1.0.11";
 var urlsToCache = ["/"];
 
 // Install a service worker
