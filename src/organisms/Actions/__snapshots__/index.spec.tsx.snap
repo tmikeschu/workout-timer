@@ -78,10 +78,80 @@ exports[`Actions shows announcement buttons 1`] = `
       </button>
       <button
         class="css-i71c7p"
+        data-testid="load-announcements"
         disabled=""
       >
         Load announcements
       </button>
+      <button
+        class="css-i71c7p"
+        disabled=""
+      >
+        Clear announcements
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Actions shows load options 1`] = `
+<div>
+  <div
+    class="css-vcirm2"
+  >
+    <button
+      class="css-i71c7p"
+    >
+      Start
+    </button>
+    <button
+      class="css-i71c7p"
+      disabled=""
+    >
+      Pause
+    </button>
+    <button
+      class="css-i71c7p"
+      disabled=""
+    >
+      Reset
+    </button>
+    <div
+      class="css-1l6nss"
+      data-testid="show-more"
+      role="button"
+    >
+      Hide
+    </div>
+    <div>
+      <button
+        class="css-i71c7p"
+        data-testid="add-announcement"
+      >
+        Add announcement
+      </button>
+      <button
+        class="css-i71c7p"
+        data-testid="save-announcements"
+        disabled=""
+      >
+        Save announcements
+      </button>
+      <button
+        class="css-i71c7p"
+        data-testid="load-announcements"
+      >
+        Load announcements
+      </button>
+      <ul
+        class="css-z6d2hl"
+      >
+        <li
+          role="button"
+        >
+          nice
+        </li>
+      </ul>
       <button
         class="css-i71c7p"
         disabled=""
@@ -159,6 +229,8 @@ exports[`Actions shows save options 1`] = `
       </div>
       <button
         class="css-i71c7p"
+        data-testid="load-announcements"
+        disabled=""
       >
         Load announcements
       </button>

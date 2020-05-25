@@ -1,16 +1,23 @@
 import * as React from "react";
+import { LocalStorageMock } from "@react-mock/localstorage";
 import { render as tlrRender } from "@testing-library/react";
-import { ThemeProvider } from "../theme";
+
 import { AppMachineProvider } from "contexts/machine";
+
+import { ThemeProvider } from "../theme";
 
 type Render = typeof tlrRender;
 export const render = (
-  ...args: Partial<Parameters<Render>>
+  component: Parameters<Render>[0],
+  options: Parameters<Render>[1] = {},
+  other: { localStorage: Record<string, string> } = { localStorage: {} }
 ): ReturnType<Render> => {
   return tlrRender(
-    <ThemeProvider>
-      <AppMachineProvider>{args[0]}</AppMachineProvider>
-    </ThemeProvider>,
-    args[1]
+    <LocalStorageMock items={other.localStorage}>
+      <ThemeProvider>
+        <AppMachineProvider>{component}</AppMachineProvider>
+      </ThemeProvider>
+    </LocalStorageMock>,
+    options
   );
 };

@@ -1,7 +1,8 @@
 import * as React from "react";
-import emotionStyled, { CreateStyled } from "@emotion/styled";
+import emotionStyled, { CreateStyled } from "@emotion/styled/macro";
 import { injectGlobal } from "emotion";
 import { ThemeProvider as EmotionProvider } from "emotion-theming";
+
 import { Day, Night } from "./icons";
 
 const colors = {

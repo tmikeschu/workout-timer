@@ -1,10 +1,17 @@
 import * as React from "react";
-import { styled } from "theme";
+
 import Button from "atoms/Button";
-import { useAppMachine } from "contexts/machine";
-import { createUUID, etv } from "utils";
 import TextInput from "atoms/TextInput";
+import { useAppMachine } from "contexts/machine";
+import { styled } from "theme";
 import { IAnnouncementConfig } from "types";
+import { createUUID, etv } from "utils";
+
+const LOCAL_STORAGE_KEY = "@timerConfigs";
+type SavedConfig = {
+  time: number;
+  announcements: IAnnouncementConfig[];
+};
 
 const Container = styled.div`
   display: flex;
@@ -17,13 +24,14 @@ const ConfigOptions = styled.ul`
   list-style: none;
   padding: 0;
   width: 100%;
+  margin-top: 0;
 
   li {
     text-align: center;
     font-size: 1.5rem;
     text-decoration: underline;
     cursor: pointer;
-    margin: 1rem auto;
+    margin-bottom: 1rem;
 
     &:last-of-type {
       margin-bottom: 0;
@@ -72,14 +80,21 @@ const Actions: React.FC = () => {
   const fresh = current.context.initialTime === current.context.currentTime;
 
   const saveAnnouncements = (): void => {
-    const configs = JSON.parse(localStorage.getItem("timerConfigs") || "{}");
-    const config = JSON.stringify({
+    const configs = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || "{}");
+    const config = {
       ...configs,
-      [configName]: current.context.announcementTimes,
-    });
-    localStorage.setItem("timerConfigs", config);
+      [configName]: {
+        announcements: current.context.announcementTimes,
+        time: current.context.initialTime,
+      },
+    } as Record<string, SavedConfig>;
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(config));
     setShowSaveConfig(false);
   };
+
+  const savedConfigs: Record<string, SavedConfig> = JSON.parse(
+    localStorage.getItem(LOCAL_STORAGE_KEY) || "{}"
+  );
 
   return (
     <Container>
@@ -140,14 +155,11 @@ const Actions: React.FC = () => {
           ) : null}
 
           <Button
+            data-testid="load-announcements"
             onClick={() => setShowLoadConfig((b) => !b)}
             disabled={(() => {
               try {
-                return (
-                  Object.keys(
-                    JSON.parse(localStorage.getItem("timerConfigs") || "{}")
-                  ).length === 0
-                );
+                return Object.keys(savedConfigs).length === 0;
               } catch (_) {
                 return true;
               }
@@ -155,6 +167,37 @@ const Actions: React.FC = () => {
           >
             Load announcements
           </Button>
+
+          {showLoadConfig ? (
+            <ConfigOptions>
+              {Object.entries(savedConfigs).map(
+                ([key, value]: [string, SavedConfig]) => (
+                  <li
+                    key={key}
+                    role="button"
+                    onClick={() => {
+                      send({
+                        type: "SET_ANNOUNCEMENT_TIMES",
+                        payload: {
+                          announcementTimes: value.announcements,
+                        },
+                      });
+                      send({
+                        type: "SET_TIME",
+                        payload: {
+                          time: value.time,
+                        },
+                      });
+                      setShowLoadConfig(false);
+                      setConfigName(key);
+                    }}
+                  >
+                    {key}
+                  </li>
+                )
+              )}
+            </ConfigOptions>
+          ) : null}
 
           <Button
             onClick={() =>
@@ -169,30 +212,6 @@ const Actions: React.FC = () => {
           >
             Clear announcements
           </Button>
-
-          {showLoadConfig ? (
-            <ConfigOptions>
-              {Object.entries(
-                JSON.parse(localStorage.getItem("timerConfigs") || "{}")
-              ).map(([key, value]) => (
-                <li
-                  key={key}
-                  role="button"
-                  onClick={() => {
-                    send({
-                      type: "SET_ANNOUNCEMENT_TIMES",
-                      payload: {
-                        announcementTimes: value as IAnnouncementConfig[],
-                      },
-                    });
-                    setShowLoadConfig(false);
-                  }}
-                >
-                  {key}
-                </li>
-              ))}
-            </ConfigOptions>
-          ) : null}
         </div>
       ) : null}
     </Container>

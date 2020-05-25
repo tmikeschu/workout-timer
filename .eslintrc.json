@@ -36,7 +36,7 @@
           ["^.+\\.s?css$"],
 
           // Packages. emotion and react related packages come first.
-          ["^@emotion/core", "^react", "^@?\\w"],
+          ["^react", "^@?\\w"],
 
           // Internal packages. should match any direct child of ./src
           [
